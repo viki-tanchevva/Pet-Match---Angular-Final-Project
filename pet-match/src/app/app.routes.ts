@@ -19,6 +19,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/auth/register/register.component').then(c => c.RegisterComponent)
     },
     {
+        path: 'profile',
+        loadComponent: () => import('./features/profile/profile.component').then(c => c.ProfileComponent)
+    },
+    {
         path: 'add-animal',
         loadComponent: () => import('./features/animals/create-animal/create-animal.component').then(c => c.CreateAnimalComponent)
     },

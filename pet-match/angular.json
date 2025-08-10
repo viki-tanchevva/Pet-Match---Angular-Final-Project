@@ -27,7 +27,10 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles/reset.css",
+              "src/styles/layout.css",
+              "src/styles/typography.css",
+              "src/styles/responsive.css"
             ],
             "scripts": [],
             "server": "src/main.server.ts",
@@ -97,5 +100,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "0cffff70-1d34-4f39-88b7-13027c04cf22"
   }
 }
