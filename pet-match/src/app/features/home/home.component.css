@@ -1,0 +1,183 @@
+/* Основен стил */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background: url('https://png.pngtree.com/png-clipart/20230824/original/pngtree-people-and-dogs-at-dog-park-garden-clipart-happy-vector-png-image_10639994.png') no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Бял замъгляващ слой */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.6);
+  z-index: 0;
+}
+
+/* Хедър */
+header {
+  background-color: #03a9f4;
+  padding: 1rem 2rem;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+header .logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+header .logo span {
+  font-weight: 700;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 1.5rem;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+nav a:hover {
+  opacity: 0.8;
+}
+
+.hero {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.speech-bubble {
+  background-color: #03a9f4;
+  color: white;
+  padding: 2rem;
+  border-radius: 40% 45% 40% 45%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.speech-bubble h2 {
+  font-size: 1.9rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.btn-primary {
+  background-color: white;
+  color: #03a9f4;
+  font-weight: bold;
+  font-size: 0.9rem;      /* по-малък шрифт */
+  padding: 0.6rem 1.2rem; /* по-малко разстояние около текста */
+  text-decoration: none;
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary:hover {
+  background-color: #e0f7fa;
+}
+
+.btn-primary i {
+  font-size: 1rem; /* иконата също по-малка */
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #03a9f4;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  z-index: 2;
+  font-size: 0.9rem;
+}
+
+/* --- 📱 Адаптивност за мобилни устройства --- */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+
+  nav a {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+  }
+
+  .hero {
+    top: 30%; /* малко по-нагоре за телефони */
+    padding: 1rem;
+    transform: translate(-50%, -30%);
+  }
+
+  .speech-bubble {
+    max-width: 90%;
+    padding: 1.5rem;
+    border-radius: 20% 25% 20% 25%;
+  }
+
+  .speech-bubble h2 {
+    font-size: 1.3rem;
+    line-height: 1.4;
+  }
+
+  .btn-primary {
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+  }
+
+  footer {
+    font-size: 0.8rem;
+    padding: 0.8rem;
+    text-align: center;
+  }
+}
