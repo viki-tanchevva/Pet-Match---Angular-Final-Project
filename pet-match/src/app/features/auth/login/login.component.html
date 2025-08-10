@@ -1,0 +1,25 @@
+<main>
+    <section class="login-section">
+      <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <h2>Login to your account</h2>
+        <label for="email">Email</label>
+        <input [class.input-error]="emailError" type="email" id="email" name="email" placeholder="Enter email" formControlName="email"/>
+        @if (emailError) {
+        <p class="error">
+            {{ emailErrorMessage }}
+        </p>
+        }
+        <label for="password">Password</label>
+        <input [class.input-error]="passwordError" type="password" id="password" name="password" placeholder="Enter password" formControlName="password"/>
+        @if (passwordError) {
+        <p class="error">
+            {{ passwordErrorMessage }}
+        </p>
+        }
+        <button [disabled]="!loginForm.valid" type="submit" class="btn-primary">Login</button>
+        <p class="register-link">
+        Do not have an account? <a href="/register">Register</a>
+      </p>
+      </form>
+    </section>
+  </main>
