@@ -1,0 +1,9 @@
+<div class="animal-card">
+  <img [src]="animal.imageUrl" [alt]="animal.type" />
+  <h3>{{ animal.name }}</h3>
+  <!-- <p>Type: {{ animal.type }}</p>
+  <p>Age: {{ animal.age }} years old</p>
+  <p>Location: {{ animal.location }}</p>
+  <p>{{ animal.description }}</p> -->
+  <a [routerLink]="['/animals', animal.id]" class="btn-primary">Details</a>
+</div>
