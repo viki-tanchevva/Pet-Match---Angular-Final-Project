@@ -1,0 +1,98 @@
+<main>
+  <section class="apply-section">
+    <form class="apply-form" [formGroup]="createAnimalForm" (ngSubmit)="onSubmit()">
+      <h2>Add new animal</h2>
+
+      <label for="name">Name</label>
+      <input
+        [class.input-error]="isNameInvalid"
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Name"
+        formControlName="name"
+      />
+      <p class="error" *ngIf="isNameInvalid">
+        {{ nameErrorMessage }}
+      </p>
+
+      <label for="type">Type</label>
+      <select
+        id="type"
+        name="type"
+        formControlName="type"
+        [class.input-error]="isTypeInvalid"
+      >
+        <option value="">-- Select --</option>
+        <option value="Dog">Dog</option>
+        <option value="Cat">Cat</option>
+        <option value="Rabbit">Rabbit</option>
+        <option value="Guinea pig">Guinea Pig</option>
+        <option value="Hamster">Hamster</option>
+        <option value="Bird">Bird</option>
+        <option value="Turtle">Turtle</option>
+        <option value="Other">Other</option>
+      </select>
+      <p class="error" *ngIf="isTypeInvalid">
+        {{ typeErrorMessage }}
+      </p>
+
+      <label for="age">Age (in years)</label>
+      <input
+        [class.input-error]="isAgeInvalid"
+        type="number"
+        id="age"
+        name="age"
+        placeholder="Age"
+        formControlName="age"
+
+      />
+      <p class="error" *ngIf="isAgeInvalid">
+        {{ ageErrorMessage }}
+      </p>
+
+      <label for="location">Location</label>
+      <input
+        [class.input-error]="isLocationInvalid"
+        type="text"
+        id="location"
+        name="location"
+        placeholder="Location"
+        formControlName="location"
+      />
+      <p class="error" *ngIf="isLocationInvalid">
+        {{ locationErrorMessage }}
+      </p>
+
+      <label for="imageUrl">ImgURL</label>
+      <input
+        [class.input-error]="isImageUrlInvalid"
+        type="url"
+        id="imageUrl"
+        name="imageUrl"
+        placeholder="Image URL"
+        formControlName="imageUrl"
+      />
+      <p class="error" *ngIf="isImageUrlInvalid">
+        {{ imageUrlErrorMessage }}
+      </p>
+
+      <label for="description">Description</label>
+      <textarea
+        [class.input-error]="isDescriptionInvalid"
+        id="description"
+        name="description"
+        rows="4"
+        placeholder="Description"
+        formControlName="description"
+      ></textarea>
+      <p class="error" *ngIf="isDescriptionInvalid">
+        {{ descriptionErrorMessage }}
+      </p>
+
+      <button type="submit" class="btn-primary" [attr.disabled]="createAnimalForm.invalid ? true : null">
+        <i class="fas fa-plus"></i> Add animal
+      </button>
+    </form>
+  </section>
+</main>
