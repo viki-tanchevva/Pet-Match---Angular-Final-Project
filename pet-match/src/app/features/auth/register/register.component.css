@@ -1,0 +1,122 @@
+main {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 2rem 1rem 2rem 1rem;
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  box-sizing: border-box;
+  background: transparent;
+  flex-direction: column;
+}
+
+.register-section {
+  background: #03a9f4;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  max-width: 500px;
+  width: 100%;
+  color: white;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.register-form h2 {
+  margin-bottom: 0.8rem;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.register-form label {
+  display: block;
+  margin-bottom: 0.2rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.register-form input[type="text"],
+.register-form input[type="email"],
+.register-form input[type="password"],
+select {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.6rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+select {
+  border: 2px solid #03a9f4;
+  background-color: white;
+  color: #01579b;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+select:hover,
+select:focus {
+  border-color: #0288d1;
+  outline: none;
+}
+
+.btn-primary {
+  background-color: white;
+  color: #03a9f4;
+  font-weight: bold;
+  padding: 0.45rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  margin-top: 0.3rem;
+  text-align: center;
+  display: inline-block;
+  line-height: 1.5;
+}
+
+.btn-primary:hover {
+  background-color: #e0f7fa;
+}
+
+.login-link {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: white;
+  text-align: center;
+}
+
+.login-link a {
+  color: #ffd700;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.login-link a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.error {
+  text-align: left;
+  border-radius: 0.5em;
+  color: red;
+  padding-top: 0;
+  font-weight: bold;
+  font-size: 0.8rem;
+  margin-top: 0.rem;
+}
+
+.input-error {
+  border-left-color: red !important;
+  border-color: red;
+}

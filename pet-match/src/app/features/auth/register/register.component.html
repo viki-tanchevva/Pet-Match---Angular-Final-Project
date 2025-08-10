@@ -1,0 +1,58 @@
+<main>
+  <section class="register-section">
+    <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <h2>Create an account</h2>
+
+      <label for="username">Username</label>
+      <input [class.input-error]="isUsernameValid" type="text" id="username" name="username" placeholder="Username"
+        formControlName="username" />
+      <p class="error" *ngIf="isUsernameValid">
+        {{ usernameErrorMessage }}
+      </p>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required placeholder="Email" formControlName="email" />
+      <p class="error" *ngIf="isEmailValid">
+        {{ emailErrorMessage }}
+      </p>
+      <div *ngIf="emailExistsError" class="error">
+        This email is already registered.
+      </div>
+
+
+      <div formGroupName="passwords">
+        <label for="password">Password</label>
+        <input [class.input-error]="isPasswordsValid" type="password" id="password" name="password" required
+          placeholder="Password" formControlName="password" />
+        <p class="error" *ngIf="isPasswordsValid">
+          {{ passwordErrorMessage }}
+        </p>
+
+        <label for="confirm-password">Confirm password</label>
+        <input [class.input-error]="isPasswordsValid" type="password" id="confirm-password" name="confirm-password"
+          required placeholder="RePassword" formControlName="rePassword" />
+        <p class="error" *ngIf="isPasswordsValid">
+          {{ rePasswordErrorMessage }}
+        </p>
+      </div>
+
+      <label for="role">Choose role</label>
+      <select id="role" name="role" formControlName="role" [class.input-error]="isRoleValid">
+        <option value="">-- Select --</option>
+        <option value="User">User</option>
+        <option value="Shelter">Shelter</option>
+      </select>
+      <p class="error" *ngIf="isRoleValid">
+        {{ roleErrorMessage }}
+      </p>
+
+      <button type="submit" class="btn-primary" [attr.disabled]="registerForm.invalid ? true : null">
+        Register
+      </button>
+
+      <p class="login-link">
+        Already have an account? <a href="/login">Login</a>
+      </p>
+    </form>
+  </section>
+</main>
