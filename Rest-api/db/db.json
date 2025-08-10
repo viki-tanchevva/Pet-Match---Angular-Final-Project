@@ -1,0 +1,71 @@
+{
+  "animals": [
+    {
+      "id": "e04fce21-ce92-45f2-ab62-31a8540c7fed",
+      "name": "Kitty",
+      "age": 2,
+      "type": "Cat",
+      "description": "Cute little cat",
+      "imageUrl": "https://tse1.mm.bing.net/th/id/OIP.vGgye5GpfVlfyL1nkWrxNAHaE7?rs=1&pid=ImgDetMain&o=7&rm=3",
+      "location": "Gotse Delchev",
+      "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
+      "likes": 3,
+      "adopted": false
+    },
+    {
+      "id": "eaac63cb-ef83-45a0-b05f-fbd592824f5d",
+      "name": "Browny",
+      "age": 4,
+      "type": "Dog",
+      "description": "An obedient and playful dog is waiting for its owner.",
+      "imageUrl": "https://i.pinimg.com/736x/64/98/ab/6498abf78cdccb1aa32ae49a247c1cfd.jpg",
+      "location": "Bansko",
+      "addedByUserId": "3820daf5-358c-4e7b-9863-361cb0f17d52",
+      "likes": 0,
+      "adopted": false
+    }
+  ],
+  "users": [
+    {
+      "id": "a9f1de17-f910-4993-9967-611ed3c0d60a",
+      "username": "user1234",
+      "email": "user123@abv.bg",
+      "passwordHash": "$2b$10$2Tx.iGfE6UuCF7UTpjCCiuy6fmDxr6gR5WQ9zRfhyB0.3ytdKIjIK",
+      "role": "Shelter",
+      "likedAnimals": []
+    },
+    {
+      "id": "141d933c-7bd9-4f82-9e11-c658a31c0fca",
+      "username": "user1234",
+      "email": "ad@abv.bg",
+      "passwordHash": "$2b$10$qVuZg0eVYnajHj6NTA1vA.d63oQEUPq8XAb6vzvMCb6K9ddJEr/OS",
+      "role": "User",
+      "likedAnimals": []
+    },
+    {
+      "id": "8894ef72-eb89-462e-b94a-d7070382e5f6",
+      "username": "viki_tanchevvaaa",
+      "email": "viki@gmail.com",
+      "passwordHash": "$2b$10$ZkpUZVUfFaxsBgQ.Az4uoekJlwaCBhGb1zdUXFIzBLgzpR7mEcUN.",
+      "role": "User",
+      "likedAnimals": []
+    },
+    {
+      "id": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
+      "username": "shelter",
+      "email": "shelter@abv.bg",
+      "passwordHash": "$2b$10$4PfJKsNg3E5awPph6KguXeeK5f6uaA2MXuDX0tUzYRMkdZThijSm2",
+      "role": "Shelter",
+      "likedAnimals": []
+    },
+    {
+      "id": "3820daf5-358c-4e7b-9863-361cb0f17d52",
+      "username": "shelter1",
+      "email": "shelter1@abv.bg",
+      "passwordHash": "$2b$10$vrFGCeK/aR92FNqcWT8a0eDFhlA.Bk/PLzStBdwvVxbH8mKMM05aO",
+      "role": "Shelter",
+      "likedAnimals": []
+    }
+  ],
+  "adoptionRequests": []
+}
