@@ -1,0 +1,11 @@
+<main>
+  <section class="catalog">
+    <h2>Catalog of Animals for Adoption</h2>
+    <div class="animal-grid">
+      <app-animal-item
+        *ngFor="let animal of animals"
+        [animal]="animal"
+      ></app-animal-item>
+    </div>
+  </section>
+</main>
