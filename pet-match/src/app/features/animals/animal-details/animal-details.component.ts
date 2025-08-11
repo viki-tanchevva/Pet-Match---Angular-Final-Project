@@ -1,8 +1,8 @@
-import { Component, OnInit, signal, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Animal } from '../../../models';
 import { AnimalsService, AuthService } from '../../../core/services';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-animal-details',
@@ -14,17 +14,13 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 export class AnimalDetailsComponent implements OnInit {
   animal = signal<Animal | null>(null);
   liked = false;
-  private isBrowser: boolean;
 
   constructor(
     private route: ActivatedRoute,
     private animalsService: AnimalsService,
     private authService: AuthService,
-    private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {
-    this.isBrowser = isPlatformBrowser(this.platformId);
-  }
+    private router: Router
+  ) { }
 
   get isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
@@ -52,18 +48,20 @@ export class AnimalDetailsComponent implements OnInit {
     }
   }
 
-  private getLikedAnimals(): string[] {
-    if (!this.isBrowser) {
-      return [];
+  onEdit(): void {
+    const animal = this.animal();
+    if (!animal) {
+      return;
     }
+    this.router.navigate(['/animals/edit', animal.id]);
+  }
+
+  private getLikedAnimals(): string[] {
     const data = localStorage.getItem('likedAnimals');
     return data ? JSON.parse(data) : [];
   }
 
   private addLikedAnimal(id: string): void {
-    if (!this.isBrowser) {
-      return;
-    }
     const likedAnimals = this.getLikedAnimals();
     if (!likedAnimals.includes(id)) {
       likedAnimals.push(id);
@@ -72,11 +70,7 @@ export class AnimalDetailsComponent implements OnInit {
   }
 
   onLike() {
-    if (!this.animal()) return;
-    if (this.liked) {
-      alert('You have already liked this animal.');
-      return;
-    }
+    if (!this.animal() || this.liked) return;
     this.animalsService.likeAnimal(this.animal()!.id).subscribe({
       next: ({ likes }) => {
         this.animal.update(a => ({ ...a!, likes }));
@@ -85,6 +79,9 @@ export class AnimalDetailsComponent implements OnInit {
       }
     });
   }
+
+  
+
 
   onDelete() {
     if (!this.animal()) return;

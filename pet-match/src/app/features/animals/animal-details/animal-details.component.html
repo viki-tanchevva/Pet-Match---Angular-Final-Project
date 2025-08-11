@@ -20,7 +20,7 @@
           </ng-container>
 
           <ng-container *ngIf="userRole === 'Shelter' && isCreator()">
-            <a [routerLink]="['/animals/edit', animal.id]" class="btn-primary">Edit</a>
+            <a [routerLink]="['/animals/edit', animal.id]" class="btn-primary" (click)="onEdit()">Edit</a>
             <button class="btn-delete" (click)="onDelete()">Delete</button>
           </ng-container>
 

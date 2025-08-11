@@ -33,5 +33,9 @@ export const routes: Routes = [
     {
         path: 'animals/:id',
         loadComponent: () => import('./features/animals/animal-details/animal-details.component').then(c => c.AnimalDetailsComponent)
+    },
+    {
+        path: 'animals/edit/:id',
+        loadComponent: () => import('./features/animals/animal-edit/animal-edit.component').then(c => c.AnimalEditComponent)
     }
 ];
