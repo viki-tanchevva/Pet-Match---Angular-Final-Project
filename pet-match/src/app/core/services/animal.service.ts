@@ -60,4 +60,11 @@ export class AnimalsService {
       withCredentials: true
     });
   }
+
+  getFavoriteAnimals(): Observable<Animal[]> {
+  return this.httpClient.get<Animal[]>(`${this.apiUrl}/favorites`, {
+    withCredentials: true
+  });
+}
+
 }
