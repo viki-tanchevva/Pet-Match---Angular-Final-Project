@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const SECRET_KEY = 'some_secret_key'; // същият ключ като в authController
+const SECRET_KEY = 'some_secret_key'; 
 
 function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;

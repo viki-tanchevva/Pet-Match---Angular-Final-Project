@@ -1,5 +1,3 @@
-// models/user.js
-
 const { v4: uuidv4 } = require('uuid');
 
 class User {

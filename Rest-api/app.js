@@ -2,14 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const routes = require('./routes'); // импорт на index.js с всички рутери
-
+const routes = require('./routes'); 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 
-// Регистриране на рутерите
 app.use('/api/animals', routes.animalsRouter);
 app.use('/api/users', routes.usersRouter);
 app.use('/api/adoptionRequests', routes.adoptionRequestsRouter);

@@ -1,5 +1,3 @@
-// controllers/adoptionRequestsController.js
-
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const path = require('path');
@@ -11,12 +9,10 @@ function saveDb() {
   fs.writeFileSync(dbFilePath, JSON.stringify(db, null, 2));
 }
 
-// Вземи всички заявки
 exports.getAllRequests = (req, res) => {
   res.json(db.adoptionRequests);
 };
 
-// Вземи заявка по ID
 exports.getRequestById = (req, res) => {
   const request = db.adoptionRequests.find(r => r.id === req.params.id);
   if (!request) {
@@ -25,7 +21,6 @@ exports.getRequestById = (req, res) => {
   res.json(request);
 };
 
-// Създай нова заявка за осиновяване
 exports.createRequest = (req, res) => {
   const { userId, animalId, message } = req.body;
 
@@ -47,7 +42,6 @@ exports.createRequest = (req, res) => {
   res.status(201).json(newRequest);
 };
 
-// Обнови статус на заявка
 exports.updateRequestStatus = (req, res) => {
   const request = db.adoptionRequests.find(r => r.id === req.params.id);
   if (!request) {
@@ -66,7 +60,6 @@ exports.updateRequestStatus = (req, res) => {
   res.json(request);
 };
 
-// Изтрий заявка
 exports.deleteRequest = (req, res) => {
   const index = db.adoptionRequests.findIndex(r => r.id === req.params.id);
   if (index === -1) {

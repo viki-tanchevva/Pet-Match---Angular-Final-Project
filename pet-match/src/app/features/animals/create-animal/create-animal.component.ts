@@ -11,7 +11,7 @@ import {
   Validators
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../core/services/auth.service'; // провери пътя
+import { AuthService } from '../../../core/services/auth.service'; 
 import { AnimalsService } from '../../../core/services';
 
 @Component({

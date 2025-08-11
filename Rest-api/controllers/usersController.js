@@ -1,5 +1,3 @@
-// controllers/usersController.js
-
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const path = require('path');
@@ -39,7 +37,7 @@ function registerUser(req, res) {
     id: uuidv4(),
     username,
     email,
-    passwordHash: password, // за демонстрация, иначе трябва да е хеширано!
+    passwordHash: password,
     role: role || 'user',
     likedAnimals: [],
   };
@@ -50,7 +48,6 @@ function registerUser(req, res) {
   res.status(201).json(newUser);
 }
 
-// Добавена функция за вход на потребител
 function loginUser(req, res) {
   const { email, password } = req.body;
 
@@ -97,7 +94,6 @@ function deleteUser(req, res) {
   res.json({ message: 'User deleted', user: deleted[0] });
 }
 
-// loginUser
 function loginUser(req, res) {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -109,11 +105,9 @@ function loginUser(req, res) {
     return res.status(401).json({ message: 'Invalid email or password' });
   }
 
-  // За демо - просто връщаме потребителя, без токени и хеширане
   res.json({ message: 'Login successful', user });
 }
 
-// getUserFavorites
 function getUserFavorites(req, res) {
   const user = db.users.find(u => u.id === req.params.id);
   if (!user) {

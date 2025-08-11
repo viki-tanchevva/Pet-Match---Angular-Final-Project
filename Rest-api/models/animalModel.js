@@ -1,5 +1,3 @@
-// models/animal.js
-
 const { v4: uuidv4 } = require('uuid');
 
 class Animal {
@@ -7,7 +5,7 @@ class Animal {
         this.id = uuidv4();
         this.name = name;
         this.age = age;
-        this.type = type; // 'dog' | 'cat' | 'rabbit' | 'other'
+        this.type = type; 
         this.description = description;
         this.imageUrl = imageUrl;
         this.location = location;

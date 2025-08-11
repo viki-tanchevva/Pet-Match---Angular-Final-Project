@@ -1,9 +1,9 @@
 main {
   flex: 1;
   display: flex;
-  justify-content: center;  /* център по хоризонтала */
-  align-items: flex-start;  /* отгоре */
-  padding-top: 2rem;        /* малко разстояние под хедъра */
+  justify-content: center;  
+  align-items: flex-start;  
+  padding-top: 2rem;        
   position: relative;
   z-index: 2;
   min-height: 100vh;
@@ -12,7 +12,7 @@ main {
 }
 
 .apply-section {
-  padding: 0.6rem 1rem;         /* минимален padding */
+  padding: 0.6rem 1rem;         
   max-width: 500px;
   margin: 0 auto;
   background: white;
@@ -23,7 +23,7 @@ main {
 
 .apply-form h2 {
   margin-bottom: 0.4rem;
-  font-size: 1.2rem;            /* по-малко заглавие */
+  font-size: 1.2rem;            
 }
 
 input[type="text"],
@@ -31,13 +31,13 @@ input[type="url"],
 input[type="number"],
 textarea,
 select {
-  padding: 0.3rem 0.6rem;       /* супер компактни полета */
+  padding: 0.3rem 0.6rem;       
   font-size: 0.85rem;
-  margin-bottom: 0.4rem;        /* минимално разстояние */
+  margin-bottom: 0.4rem;        
 }
 
 textarea {
-  height: 45px;                 /* много ниско поле за описание */
+  height: 45px;                 
   resize: vertical;
 }
 

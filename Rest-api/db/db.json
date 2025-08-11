@@ -23,6 +23,18 @@
       "addedByUserId": "3820daf5-358c-4e7b-9863-361cb0f17d52",
       "likes": 0,
       "adopted": false
+    },
+    {
+      "id": "05f3d101-4926-441b-a77c-9b3d27418304",
+      "name": "Stewart",
+      "age": 1,
+      "type": "Guinea pig",
+      "description": "A gentle guinea pig looking for a loving home. Calm, curious, and loves snacks!",
+      "imageUrl": "https://th.bing.com/th/id/R.a511c07d7d6c29c38f6c0bf06360be59?rik=yONhrAZdaFSJJw&pid=ImgRaw&r=0",
+      "location": "Gotse Delchev",
+      "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
+      "likes": 0,
+      "adopted": false
     }
   ],
   "users": [

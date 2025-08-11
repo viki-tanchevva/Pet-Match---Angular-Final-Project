@@ -1,14 +1,13 @@
 const fs = require('fs');
 const path = require('path');
-const usersDb = require('../db/db.json'); // Или твоята реална база
+const usersDb = require('../db/db.json'); 
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const SECRET_KEY = 'some_secret_key'; // замени със собствен ключ
+const SECRET_KEY = 'some_secret_key'; 
 const dbPath = path.join(__dirname, '../db/db.json');
 
-// Регистрация
 async function register(req, res) {
   const { username, email, password, role } = req.body;
 
@@ -33,7 +32,6 @@ async function register(req, res) {
 
   usersDb.users.push(newUser);
 
-  // Запис във файла (файлова база)
   try {
     fs.writeFileSync(dbPath, JSON.stringify(usersDb, null, 2));
   } catch (err) {
@@ -69,9 +67,7 @@ async function login(req, res) {
   });
 }
 
-// Изход
 function logout(req, res) {
-  // JWT: Клиентът просто изтрива токена
   res.json({ message: 'Logged out' });
 }
 

@@ -23,7 +23,6 @@ export class AnimalDetailsComponent implements OnInit {
     private router: Router
   ) { }
 
-  // Върни стойността на сигнала (извиквай сигнала с ())
   get isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
@@ -41,7 +40,7 @@ export class AnimalDetailsComponent implements OnInit {
     if (id) {
       this.animalsService.getAnimalById(id).subscribe({
         next: (animal) => this.animal.set(animal),
-        error: () => this.router.navigate(['/animals']) // Ако няма животно - върни към списъка
+        error: () => this.router.navigate(['/animals']) 
       });
     }
   }
@@ -58,7 +57,7 @@ export class AnimalDetailsComponent implements OnInit {
 
   onDelete() {
     if (!this.animal()) return;
-    if (confirm('Сигурни ли сте, че искате да изтриете това животно?')) {
+    if (confirm('Are you sure you want to delete this animal?')) {
       this.animalsService.deleteAnimal(this.animal()!.id).subscribe({
         next: () => this.router.navigate(['/animals'])
       });
