@@ -11,7 +11,7 @@
 
         <div class="actions" *ngIf="isLoggedIn">
           <ng-container *ngIf="userRole === 'User'">
-            <button class="btn-like" [disabled]="liked" (click)="onLike()">
+            <button class="btn-like" (click)="onLike()">
               <i class="fas fa-heart"></i> Like ({{ animal.likes || 0 }})
             </button>
             <a [routerLink]="['/apply', animal.id]" class="btn-primary">

@@ -41,7 +41,7 @@ export class AnimalDetailsComponent implements OnInit {
         next: (animal) => {
           this.animal.set(animal);
           const likedAnimals = this.getLikedAnimals();
-          this.liked = likedAnimals.includes(animal.id);
+          this.liked = likedAnimals.map(id => id.toString()).includes(animal.id.toString());
         },
         error: () => this.router.navigate(['/animals'])
       });
@@ -57,31 +57,43 @@ export class AnimalDetailsComponent implements OnInit {
   }
 
   private getLikedAnimals(): string[] {
+    if (typeof window === 'undefined' || !window.localStorage) {
+      return [];
+    }
     const data = localStorage.getItem('likedAnimals');
     return data ? JSON.parse(data) : [];
   }
 
   private addLikedAnimal(id: string): void {
+    if (typeof window === 'undefined' || !window.localStorage) {
+      return;
+    }
     const likedAnimals = this.getLikedAnimals();
-    if (!likedAnimals.includes(id)) {
+    if (!likedAnimals.map(i => i.toString()).includes(id.toString())) {
       likedAnimals.push(id);
       localStorage.setItem('likedAnimals', JSON.stringify(likedAnimals));
     }
   }
 
   onLike() {
-    if (!this.animal() || this.liked) return;
-    this.animalsService.likeAnimal(this.animal()!.id).subscribe({
+    const animal = this.animal();
+    if (!animal) return;
+
+    const likedAnimals = this.getLikedAnimals();
+    if (likedAnimals.map(id => id.toString()).includes(animal.id.toString())) {
+      alert('You have already liked this animal.');
+      this.liked = true;
+      return;
+    }
+
+    this.animalsService.likeAnimal(animal.id).subscribe({
       next: ({ likes }) => {
         this.animal.update(a => ({ ...a!, likes }));
         this.liked = true;
-        this.addLikedAnimal(this.animal()!.id);
+        this.addLikedAnimal(animal.id);
       }
     });
   }
-
-  
-
 
   onDelete() {
     if (!this.animal()) return;

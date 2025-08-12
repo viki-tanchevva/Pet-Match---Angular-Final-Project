@@ -1,0 +1,28 @@
+.catalog {
+  padding: 3rem 2rem;
+  z-index: 2;
+  position: relative;
+  text-align: center;
+}
+
+.catalog h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #01579b;
+}
+
+.animal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.no-animals {
+  font-size: 1.4rem;
+  color: #0277bd;
+  padding: 2rem;
+  background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
+  border-radius: 1rem;
+  display: inline-block;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}

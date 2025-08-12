@@ -37,7 +37,7 @@ export class AuthService {
     }
 
     login(email: string, password: string): Observable<User> {
-        return this.httpClient.post<User>(`${this.apiUrl}/login`, {email, password}, {
+        return this.httpClient.post<User>(`${this.apiUrl}/login`, { email, password }, {
             withCredentials: true
         }).pipe(
             tap(user => {
@@ -55,8 +55,8 @@ export class AuthService {
         return this.httpClient.post<User>(`${this.apiUrl}/register`, {
             username,
             email,
-            password, 
-            rePassword, 
+            password,
+            rePassword,
             role
         }, {
             withCredentials: true
@@ -89,6 +89,14 @@ export class AuthService {
 
     getCurrentUserId(): string | null {
         return this._currentUser()?._id || null;
+    }
+
+    
+    getToken(): string | null {
+        if (typeof window !== 'undefined' && window.localStorage) {
+            return localStorage.getItem('token');
+        }
+        return null;
     }
 
 }

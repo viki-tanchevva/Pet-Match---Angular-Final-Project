@@ -1,17 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const { animalsController } = require('../controllers');
+const { animalsController, favoritesController } = require('../controllers');
+const auth = require('../utils/auth');
 
-router.post('/', animalsController.createAnimal);
-
+router.post('/', auth(), animalsController.createAnimal);
 router.get('/', animalsController.getAllAnimals);
 
+router.get('/favorites', auth(), favoritesController.getFavorites);
+router.get('/mine', auth(), animalsController.getMyAnimals);
+
 router.get('/:id', animalsController.getAnimalById);
+router.put('/:id', auth(), animalsController.updateAnimal);
+router.delete('/:id', auth(), animalsController.deleteAnimal);
 
-router.put('/:id', animalsController.updateAnimal);
-
-router.delete('/:id', animalsController.deleteAnimal);
-
-router.post('/:id/like', animalsController.likeAnimal);
+router.post('/:id/like', auth(), animalsController.likeAnimal);
 
 module.exports = router;

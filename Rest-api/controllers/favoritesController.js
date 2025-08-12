@@ -1,44 +1,52 @@
-const db = require('../db/db.json');
+const fs = require('fs');
+const path = require('path');
 
-function addFavorite(req, res) {
-  const userId = req.user.id;  
-  const { animalId } = req.body;
+const dbFilePath = path.join(__dirname, '../db/db.json');
+
+function readDb() { return JSON.parse(fs.readFileSync(dbFilePath, 'utf-8')); }
+function saveDb(db) { fs.writeFileSync(dbFilePath, JSON.stringify(db, null, 2)); }
+
+// GET /api/animals/favorites  (ползва req.user.id)
+function getFavorites(req, res) {
+  const db = readDb();
+  const userId = (req.user && req.user.id) || req.params.userId;
+  if (!userId) return res.status(401).json({ message: 'Not authenticated' });
 
   const user = db.users.find(u => u.id === userId);
   if (!user) return res.status(404).json({ message: 'User not found' });
 
-  if (!user.likedAnimals.includes(animalId)) {
-    user.likedAnimals.push(animalId);
-  }
+  const liked = new Set(user.likedAnimals || []);
+  const favorites = db.animals.filter(a => liked.has(a.id));
+  res.json(favorites);
+}
 
+// Поддръжка на старите пътища (ако ги ползваш някъде)
+function addFavorite(req, res) {
+  const db = readDb();
+  const userId = (req.user && req.user.id) || req.params.userId;
+  const animalId = req.body?.animalId || req.params.animalId;
+
+  const user = db.users.find(u => u.id === userId);
+  if (!user) return res.status(404).json({ message: 'User not found' });
+
+  user.likedAnimals = user.likedAnimals || [];
+  if (!user.likedAnimals.includes(animalId)) user.likedAnimals.push(animalId);
+
+  saveDb(db);
   res.json({ message: 'Added to favorites', likedAnimals: user.likedAnimals });
 }
 
 function removeFavorite(req, res) {
-  const userId = req.user.id;
-  const { animalId } = req.body;
+  const db = readDb();
+  const userId = (req.user && req.user.id) || req.params.userId;
+  const animalId = req.body?.animalId || req.params.animalId;
 
   const user = db.users.find(u => u.id === userId);
   if (!user) return res.status(404).json({ message: 'User not found' });
 
-  user.likedAnimals = user.likedAnimals.filter(id => id !== animalId);
-
+  user.likedAnimals = (user.likedAnimals || []).filter(id => id !== animalId);
+  saveDb(db);
   res.json({ message: 'Removed from favorites', likedAnimals: user.likedAnimals });
 }
 
-function getFavorites(req, res) {
-  const userId = req.user.id;
-
-  const user = db.users.find(u => u.id === userId);
-  if (!user) return res.status(404).json({ message: 'User not found' });
-
-  const favorites = db.animals.filter(a => user.likedAnimals.includes(a.id));
-
-  res.json(favorites);
-}
-
-module.exports = {
-  addFavorite,
-  removeFavorite,
-  getFavorites,
-};
+module.exports = { getFavorites, addFavorite, removeFavorite };

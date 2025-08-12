@@ -67,4 +67,10 @@ export class AnimalsService {
   });
 }
 
+  getMyAnimals(): Observable<Animal[]> {
+    return this.httpClient.get<Animal[]>(`${this.apiUrl}/mine`, {
+      withCredentials: true
+    });
+  }
+
 }
