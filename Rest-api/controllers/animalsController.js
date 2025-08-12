@@ -4,16 +4,19 @@ const path = require('path');
 
 const dbFilePath = path.join(__dirname, '../db/db.json');
 
-function readDb() { return JSON.parse(fs.readFileSync(dbFilePath, 'utf-8')); }
-function saveDb(db) { fs.writeFileSync(dbFilePath, JSON.stringify(db, null, 2)); }
+function readDb() {
+  return JSON.parse(fs.readFileSync(dbFilePath, 'utf-8'));
+}
+function saveDb(db) {
+  fs.writeFileSync(dbFilePath, JSON.stringify(db, null, 2));
+}
 
-// GET /api/animals
 exports.getAllAnimals = (req, res) => {
   const db = readDb();
-  res.json(db.animals);
+  const list = db.animals.filter(a => !a.adopted);
+  res.json(list);
 };
 
-// GET /api/animals/:id
 exports.getAnimalById = (req, res) => {
   const db = readDb();
   const animal = db.animals.find(a => a.id === req.params.id);
@@ -21,7 +24,6 @@ exports.getAnimalById = (req, res) => {
   res.json(animal);
 };
 
-// POST /api/animals  (Shelter)
 exports.createAnimal = (req, res) => {
   if (!req.user) return res.status(401).json({ message: 'Not authenticated' });
   if (req.user.role !== 'Shelter') return res.status(403).json({ message: 'Only Shelter can add animals' });
@@ -47,7 +49,6 @@ exports.createAnimal = (req, res) => {
   res.status(201).json(newAnimal);
 };
 
-// PUT /api/animals/:id  (само собственик Shelter)
 exports.updateAnimal = (req, res) => {
   if (!req.user) return res.status(401).json({ message: 'Not authenticated' });
 
@@ -71,7 +72,6 @@ exports.updateAnimal = (req, res) => {
   res.json(animal);
 };
 
-// DELETE /api/animals/:id  (само собственик Shelter)
 exports.deleteAnimal = (req, res) => {
   if (!req.user) return res.status(401).json({ message: 'Not authenticated' });
 
@@ -89,7 +89,6 @@ exports.deleteAnimal = (req, res) => {
   res.json({ ok: true });
 };
 
-// POST /api/animals/:id/like  (toggle за User)
 exports.likeAnimal = (req, res) => {
   if (!req.user) return res.status(401).json({ message: 'Not authenticated' });
 

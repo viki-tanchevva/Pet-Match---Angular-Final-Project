@@ -26,33 +26,22 @@ export class AnimalDetailsComponent implements OnInit {
       next: (a) => this.animal.set(a),
       error: () => this.router.navigate(['/animals'])
     });
-
-    const role = this.authService.userRole();
-    if (role === 'User') {
+    if (this.authService.userRole() === 'User') {
       this.animalsService.getFavoriteAnimals().subscribe({
-        next: (arr) => {
-          this.favoriteIds = new Set(arr.map(x => x.id));
-        }
+        next: (arr) => { this.favoriteIds = new Set(arr.map(x => x.id)); }
       });
     }
   }
 
   onToggleFavorite(): void {
-    const role = this.authService.userRole();
     const current = this.animal();
-    if (!current || role !== 'User') return;
-
+    if (!current || this.authService.userRole() !== 'User') return;
     this.animalsService.toggleFavorite(current.id).subscribe({
       next: (res) => {
         const a = this.animal();
-        if (a) {
-          this.animal.set({ ...a, likes: res.likes });
-        }
+        if (a) this.animal.set({ ...a, likes: res.likes });
         if (res.liked) this.favoriteIds.add(current.id);
         else this.favoriteIds.delete(current.id);
-      },
-      error: (err) => {
-        console.error('Favorite toggle failed', err);
       }
     });
   }
@@ -71,12 +60,13 @@ export class AnimalDetailsComponent implements OnInit {
 
   onEdit(): void {
     const a = this.animal();
-    if (a) {
-      this.router.navigate(['/animals/edit', a.id]);
-    }
+    if (a) this.router.navigate(['/animals/edit', a.id]);
   }
 
-  onDelete(): void {
-    // Извикай метод за изтриване от service ако го имаш
+  onDelete(): void {}
+
+  onAdopt(): void {
+    const a = this.animal();
+    if (a) this.router.navigate(['/adopt', a.id]);
   }
 }

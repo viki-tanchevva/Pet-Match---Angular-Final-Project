@@ -14,12 +14,16 @@ dbConnector()
     const app = express();
 
     app.use(cors({
-      origin: function (origin, callback) {
-        const allowed = ['http://localhost:4200', 'http://127.0.0.1:4200'];
-        if (!origin || allowed.includes(origin)) return callback(null, true);
-        callback(new Error('Not allowed by CORS: ' + origin));
-      },
-      credentials: true
+      origin: ['http://localhost:4200', 'http://127.0.0.1:4200'],
+      credentials: true,
+      methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+      allowedHeaders: ['Content-Type','Authorization']
+    }));
+    app.options('*', cors({
+      origin: ['http://localhost:4200', 'http://127.0.0.1:4200'],
+      credentials: true,
+      methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+      allowedHeaders: ['Content-Type','Authorization']
     }));
 
     app.use(express.json());

@@ -29,7 +29,7 @@
                 <button class="btn-primary" (click)="onToggleFavorite()">
                   {{ isFavorited() ? 'Remove from favorites' : 'Add to favorites' }}
                 </button>
-                <button class="btn-secondary">Adopt</button>
+                <button class="btn-secondary" (click)="onAdopt()">Adopt</button>
               </ng-container>
 
               <ng-container *ngIf="authService.userRole() === 'Shelter'">

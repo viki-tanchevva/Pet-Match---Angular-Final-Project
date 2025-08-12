@@ -1,0 +1,143 @@
+:host {
+  position: relative;
+  isolation: isolate;
+  z-index: 10
+}
+
+:host,
+:host * {
+  filter: none !important;
+  backdrop-filter: none !important;
+  opacity: 1 !important
+}
+
+.apply {
+  min-height: 70dvh;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1rem
+}
+
+.card {
+  width: 100%;
+  max-width: 880px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 1.25rem
+}
+
+.animal {
+  background: #f7f7fb;
+  border-radius: 12px;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: .75rem;
+  align-items: center
+}
+
+.animal img {
+  width: 96px;
+  height: 96px;
+  border-radius: 10px;
+  object-fit: cover;
+  display: block
+}
+
+.meta h2 {
+  margin: .4rem 0 .2rem
+}
+
+.form {
+  display: grid;
+  gap: .75rem
+}
+
+.form h3 {
+  margin: 0 0 .5rem
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .75rem
+}
+
+label {
+  display: grid;
+  gap: .4rem;
+  font-weight: 600
+}
+
+input,
+textarea {
+  padding: .6rem .7rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font: inherit;
+  outline: 0
+}
+
+input:focus,
+textarea:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, .15)
+}
+
+.actions {
+  display: flex;
+  gap: .6rem;
+  align-items: center;
+  margin-top: .25rem
+}
+
+.btn {
+  background: #4f46e5;
+  color: #fff;
+  border: 0;
+  padding: .7rem 1rem;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-block
+}
+
+.btn.outline {
+  background: transparent;
+  color: #4f46e5;
+  border: 2px solid #4f46e5
+}
+
+.btn:disabled {
+  opacity: .6;
+  cursor: not-allowed
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #374151
+}
+
+@media (max-width:900px) {
+  .card {
+    grid-template-columns: 1fr
+  }
+
+  .row {
+    grid-template-columns: 1fr
+  }
+
+  .animal {
+    grid-template-columns: 72px 1fr
+  }
+
+  .animal img {
+    width: 72px;
+    height: 72px
+  }
+}

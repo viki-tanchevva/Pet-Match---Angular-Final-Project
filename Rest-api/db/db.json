@@ -22,7 +22,7 @@
       "location": "Gotse Delchev",
       "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
       "likes": 1,
-      "adopted": false
+      "adopted": true
     },
     {
       "id": "19bf21e6-316c-4070-963d-b93b5df02532",
@@ -47,6 +47,18 @@
       "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
       "likes": 0,
       "adopted": false
+    },
+    {
+      "id": "7ab7a856-1be1-448e-8a01-7d847a53c3f9",
+      "name": "ggg",
+      "age": 1,
+      "type": "Rabbit",
+      "description": "gggg",
+      "imageUrl": "https://tse4.mm.bing.net/th/id/OIP.Y42psluvFv7Hmzs4XMhDjAHaFj?rs=1&pid=ImgDetMain&o=7&rm=3",
+      "location": "ggg",
+      "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
+      "likes": 0,
+      "adopted": true
     }
   ],
   "users": [
@@ -102,5 +114,26 @@
       "likedAnimals": []
     }
   ],
-  "adoptionRequests": []
+  "adoptionRequests": [
+    {
+      "id": "1db11d99-6501-4904-9323-3b207773a356",
+      "animalId": "a625efc1-0b2b-4c4f-8945-9cacfea5ff10",
+      "userId": "8894ef72-eb89-462e-b94a-d7070382e5f6",
+      "shelterId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
+      "message": "Name: Viktoria\nPhone: 0895781788\nI want the cat",
+      "status": "Approved",
+      "createdAt": "2025-08-12T20:35:47.549Z",
+      "updatedAt": "2025-08-12T21:28:36.084Z"
+    },
+    {
+      "id": "8da5de2a-0c5b-4f44-87cd-dde3024c848e",
+      "animalId": "7ab7a856-1be1-448e-8a01-7d847a53c3f9",
+      "userId": "8894ef72-eb89-462e-b94a-d7070382e5f6",
+      "shelterId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
+      "message": "Name: viki\nPhone: 09886866\ni want the cat",
+      "status": "Approved",
+      "createdAt": "2025-08-12T21:32:10.222Z",
+      "updatedAt": "2025-08-12T21:32:40.427Z"
+    }
+  ]
 }

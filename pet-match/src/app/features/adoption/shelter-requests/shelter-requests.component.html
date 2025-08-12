@@ -1,0 +1,23 @@
+<main>
+  <section class="list">
+    <h2>Adoption requests for my animals</h2>
+    <div class="grid" *ngIf="requests.length; else empty">
+      <article class="item" *ngFor="let r of requests">
+        <div class="left">
+          <img [src]="r.animal?.imageUrl || 'https://placehold.co/160x120?text=Pet'" [alt]="r.animal?.name || 'Pet'" />
+          <div>
+            <h3>{{ r.animal?.name || 'Animal' }}</h3>
+            <p>Status: <strong>{{ r.status }}</strong></p>
+            <p class="date">{{ r.createdAt | date:'medium' }}</p>
+          </div>
+        </div>
+        <div class="right">
+          <a class="btn" [routerLink]="['/animals', r.animalId]">Details</a>
+          <button class="btn ok" (click)="setStatus(r.id, 'Approved')">Approve</button>
+          <button class="btn danger" (click)="setStatus(r.id, 'Declined')">Decline</button>
+        </div>
+      </article>
+    </div>
+    <ng-template #empty><div class="empty">No requests.</div></ng-template>
+  </section>
+</main>

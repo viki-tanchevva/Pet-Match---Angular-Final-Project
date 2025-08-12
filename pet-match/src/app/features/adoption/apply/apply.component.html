@@ -1,0 +1,38 @@
+<main>
+  <section class="apply">
+    <div class="card" *ngIf="animal; else loading">
+      <div class="animal">
+        <img [src]="animal!.imageUrl" [alt]="animal!.name" />
+        <div class="meta">
+          <h2>{{ animal!.name }}</h2>
+          <p><strong>Type:</strong> {{ animal!.type }}</p>
+        </div>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+        <h3>Adoption application</h3>
+
+        <div class="row">
+          <label>Full name
+            <input formControlName="fullName" placeholder="Your name" />
+          </label>
+          <label>Phone
+            <input formControlName="phone" placeholder="Phone number" />
+          </label>
+        </div>
+
+        <label>Message (optional)
+          <textarea formControlName="message" rows="4" placeholder="Tell us about your home, experience, etc."></textarea>
+        </label>
+
+        <div class="actions">
+          <button class="btn" [disabled]="!form.valid || alreadyApplied" type="submit">
+            {{ alreadyApplied ? 'Already applied' : 'Send application' }}
+          </button>
+          <a class="btn outline" [routerLink]="['/animals', animal!.id]">Back to details</a>
+        </div>
+      </form>
+    </div>
+    <ng-template #loading><div class="loading">Loading…</div></ng-template>
+  </section>
+</main>

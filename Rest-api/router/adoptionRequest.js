@@ -1,15 +1,17 @@
 const express = require('express');
 const router = express.Router();
+
+const auth = require('../utils/auth');
 const { adoptionRequestsController } = require('../controllers');
 
-router.post('/', adoptionRequestsController.createRequest);
+router.post('/', auth(), adoptionRequestsController.createRequest);
 
-router.get('/', adoptionRequestsController.getAllRequests);
+router.get('/mine', auth(), adoptionRequestsController.getMyRequests);
 
-router.get('/:id', adoptionRequestsController.getRequestById);
+router.get('/for-shelter', auth(), adoptionRequestsController.getForShelter);
 
-router.put('/:id', adoptionRequestsController.updateRequestStatus);
+router.patch('/:id', auth(), adoptionRequestsController.updateStatus);
 
-router.delete('/:id', adoptionRequestsController.deleteRequest);
+router.delete('/:id', auth(), adoptionRequestsController.removeRequest);
 
 module.exports = router;
