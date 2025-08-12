@@ -114,7 +114,6 @@ exports.likeAnimal = (req, res) => {
   res.json({ likes: animal.likes, liked: !has, likedAnimals: user.likedAnimals });
 };
 
-// GET /api/animals/mine  (Shelter)
 exports.getMyAnimals = (req, res) => {
   if (!req.user) return res.status(401).json({ message: 'Not authenticated' });
   if (req.user.role !== 'Shelter') return res.status(403).json({ message: 'Only Shelter has "my animals"' });

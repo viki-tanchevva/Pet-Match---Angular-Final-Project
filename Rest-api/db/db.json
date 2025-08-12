@@ -9,7 +9,7 @@
       "imageUrl": "https://www.thespruce.com/thmb/vJwdUdyeS-VvR1p2X1CTlAMqx7o=/3430x2278/filters:fill(auto,1)/Birdhouse-GettyImages-166004939-59f94b78d088c0001008bce6.jpg",
       "location": "Varna",
       "addedByUserId": "3820daf5-358c-4e7b-9863-361cb0f17d52",
-      "likes": 1,
+      "likes": 0,
       "adopted": false
     },
     {
@@ -21,7 +21,7 @@
       "imageUrl": "https://tse1.mm.bing.net/th/id/OIP.vGgye5GpfVlfyL1nkWrxNAHaE7?rs=1&pid=ImgDetMain&o=7&rm=3",
       "location": "Gotse Delchev",
       "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
-      "likes": 0,
+      "likes": 1,
       "adopted": false
     },
     {
@@ -73,8 +73,8 @@
       "passwordHash": "$2b$10$ZkpUZVUfFaxsBgQ.Az4uoekJlwaCBhGb1zdUXFIzBLgzpR7mEcUN.",
       "role": "User",
       "likedAnimals": [
-        "e72a12a3-f65e-4ca0-a680-5692fead68cc",
-        "19bf21e6-316c-4070-963d-b93b5df02532"
+        "19bf21e6-316c-4070-963d-b93b5df02532",
+        "a625efc1-0b2b-4c4f-8945-9cacfea5ff10"
       ]
     },
     {
@@ -91,6 +91,14 @@
       "email": "shelter1@abv.bg",
       "passwordHash": "$2b$10$vrFGCeK/aR92FNqcWT8a0eDFhlA.Bk/PLzStBdwvVxbH8mKMM05aO",
       "role": "Shelter",
+      "likedAnimals": []
+    },
+    {
+      "id": "96550584-f704-4d18-9781-28729ce6b25a",
+      "username": "dani-tanchev",
+      "email": "dani@abv.bg",
+      "passwordHash": "$2b$10$tZzvqBLoIpt1y20/M5sU.OMguKSIxWNMwbw2jzJ95Xs8sbAgmTxKq",
+      "role": "User",
       "likedAnimals": []
     }
   ],

@@ -1,26 +1,36 @@
 global.__basedir = __dirname;
-require('dotenv').config()
+require('dotenv').config();
+
+const config = require('./config/config');
 const dbConnector = require('./config/db');
 const apiRouter = require('./router');
+
+const express = require('express');
 const cors = require('cors');
-const { errorHandler } = require('./utils');
+const cookieParser = require('cookie-parser');
 
 dbConnector()
   .then(() => {
-    const config = require('./config/config');
-
-    const app = require('express')();
-    require('./config/express')(app);
+    const app = express();
 
     app.use(cors({
-      origin: config.origin,
+      origin: function (origin, callback) {
+        const allowed = ['http://localhost:4200', 'http://127.0.0.1:4200'];
+        if (!origin || allowed.includes(origin)) return callback(null, true);
+        callback(new Error('Not allowed by CORS: ' + origin));
+      },
       credentials: true
     }));
 
+    app.use(express.json());
+    app.use(cookieParser(process.env.COOKIESECRET || 'SoftUni'));
+
     app.use('/api', apiRouter);
 
-    app.use(errorHandler);
+    const { errorHandler } = require('./utils');
+    if (errorHandler) app.use(errorHandler);
 
-    app.listen(config.port, console.log(`Listening on port ${config.port}!`));
+    const port = config.port || 3000;
+    app.listen(port, () => console.log(`API running on http://localhost:${port}`));
   })
   .catch(console.error);

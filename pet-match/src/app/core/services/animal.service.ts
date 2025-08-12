@@ -73,4 +73,11 @@ export class AnimalsService {
     });
   }
 
+  toggleFavorite(animalId: string): Observable<{ likes: number; liked: boolean; likedAnimals: string[] }> {
+    return this.httpClient.post<{ likes: number; liked: boolean; likedAnimals: string[] }>(
+      `${this.apiUrl}/${animalId}/like`,
+      {},
+      { withCredentials: true }
+    );
+  }
 }

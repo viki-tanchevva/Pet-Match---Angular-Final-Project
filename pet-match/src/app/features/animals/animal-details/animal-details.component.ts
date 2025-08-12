@@ -1,8 +1,8 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { Animal } from '../../../models';
 import { AnimalsService, AuthService } from '../../../core/services';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-animal-details',
@@ -12,106 +12,71 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./animal-details.component.css']
 })
 export class AnimalDetailsComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private animalsService = inject(AnimalsService);
+  protected authService = inject(AuthService);
+
   animal = signal<Animal | null>(null);
-  liked = false;
-
-  constructor(
-    private route: ActivatedRoute,
-    private animalsService: AnimalsService,
-    private authService: AuthService,
-    private router: Router
-  ) { }
-
-  get isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
-  }
-
-  get currentUser() {
-    return this.authService.currentUser();
-  }
-
-  get userRole() {
-    return this.authService.userRole();
-  }
+  private favoriteIds = new Set<string>();
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.animalsService.getAnimalById(id).subscribe({
-        next: (animal) => {
-          this.animal.set(animal);
-          const likedAnimals = this.getLikedAnimals();
-          this.liked = likedAnimals.map(id => id.toString()).includes(animal.id.toString());
-        },
-        error: () => this.router.navigate(['/animals'])
+    const id = this.route.snapshot.paramMap.get('id')!;
+    this.animalsService.getAnimalById(id).subscribe({
+      next: (a) => this.animal.set(a),
+      error: () => this.router.navigate(['/animals'])
+    });
+
+    const role = this.authService.userRole();
+    if (role === 'User') {
+      this.animalsService.getFavoriteAnimals().subscribe({
+        next: (arr) => {
+          this.favoriteIds = new Set(arr.map(x => x.id));
+        }
       });
     }
   }
 
-  onEdit(): void {
-    const animal = this.animal();
-    if (!animal) {
-      return;
-    }
-    this.router.navigate(['/animals/edit', animal.id]);
-  }
+  onToggleFavorite(): void {
+    const role = this.authService.userRole();
+    const current = this.animal();
+    if (!current || role !== 'User') return;
 
-  private getLikedAnimals(): string[] {
-    if (typeof window === 'undefined' || !window.localStorage) {
-      return [];
-    }
-    const data = localStorage.getItem('likedAnimals');
-    return data ? JSON.parse(data) : [];
-  }
-
-  private addLikedAnimal(id: string): void {
-    if (typeof window === 'undefined' || !window.localStorage) {
-      return;
-    }
-    const likedAnimals = this.getLikedAnimals();
-    if (!likedAnimals.map(i => i.toString()).includes(id.toString())) {
-      likedAnimals.push(id);
-      localStorage.setItem('likedAnimals', JSON.stringify(likedAnimals));
-    }
-  }
-
-  onLike() {
-    const animal = this.animal();
-    if (!animal) return;
-
-    const likedAnimals = this.getLikedAnimals();
-    if (likedAnimals.map(id => id.toString()).includes(animal.id.toString())) {
-      alert('You have already liked this animal.');
-      this.liked = true;
-      return;
-    }
-
-    this.animalsService.likeAnimal(animal.id).subscribe({
-      next: ({ likes }) => {
-        this.animal.update(a => ({ ...a!, likes }));
-        this.liked = true;
-        this.addLikedAnimal(animal.id);
+    this.animalsService.toggleFavorite(current.id).subscribe({
+      next: (res) => {
+        const a = this.animal();
+        if (a) {
+          this.animal.set({ ...a, likes: res.likes });
+        }
+        if (res.liked) this.favoriteIds.add(current.id);
+        else this.favoriteIds.delete(current.id);
+      },
+      error: (err) => {
+        console.error('Favorite toggle failed', err);
       }
     });
   }
 
-  onDelete() {
-    if (!this.animal()) return;
-    if (confirm('Are you sure you want to delete this animal?')) {
-      this.animalsService.deleteAnimal(this.animal()!.id).subscribe({
-        next: () => this.router.navigate(['/animals'])
-      });
-    }
+  isFavorited(): boolean {
+    const a = this.animal();
+    return !!a && this.favoriteIds.has(a.id);
   }
 
   isCreator(): boolean {
-    const user = this.currentUser;
-    const animal = this.animal();
+    const a = this.animal();
+    const user = this.authService.currentUser();
+    if (!a || !user) return false;
+    return String(user._id) === String(a.addedByUserId);
+  }
 
-    if (!user || !animal) {
-      return false;
+  onEdit(): void {
+    const a = this.animal();
+    if (a) {
+      this.router.navigate(['/animals/edit', a.id]);
     }
+  }
 
-    return String(user._id) === String(animal.addedByUserId);
+  onDelete(): void {
+    // Извикай метод за изтриване от service ако го имаш
   }
 }

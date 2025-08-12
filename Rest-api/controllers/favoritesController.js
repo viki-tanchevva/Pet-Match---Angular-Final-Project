@@ -6,7 +6,6 @@ const dbFilePath = path.join(__dirname, '../db/db.json');
 function readDb() { return JSON.parse(fs.readFileSync(dbFilePath, 'utf-8')); }
 function saveDb(db) { fs.writeFileSync(dbFilePath, JSON.stringify(db, null, 2)); }
 
-// GET /api/animals/favorites  (ползва req.user.id)
 function getFavorites(req, res) {
   const db = readDb();
   const userId = (req.user && req.user.id) || req.params.userId;
@@ -20,7 +19,6 @@ function getFavorites(req, res) {
   res.json(favorites);
 }
 
-// Поддръжка на старите пътища (ако ги ползваш някъде)
 function addFavorite(req, res) {
   const db = readDb();
   const userId = (req.user && req.user.id) || req.params.userId;

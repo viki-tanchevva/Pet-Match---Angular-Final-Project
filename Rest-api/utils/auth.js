@@ -1,4 +1,3 @@
-// Опростен auth middleware върху cookie JWT и db.json
 const { verifyToken } = require('./jwt');
 const { authCookieName } = require('../app-config');
 const fs = require('fs');
@@ -18,7 +17,7 @@ function auth(redirectUnauthenticated = true) {
         if (redirectUnauthenticated) return res.status(401).json({ message: 'Not authenticated' });
         return next();
       }
-      const payload = await verifyToken(token); // { id, role, email, username }
+      const payload = await verifyToken(token); 
       const db = readDb();
       const user = db.users.find(u => String(u.id) === String(payload.id));
       if (!user) return res.status(401).json({ message: 'Invalid token!' });

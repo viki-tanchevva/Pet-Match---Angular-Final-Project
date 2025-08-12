@@ -1,34 +1,54 @@
-<main *ngIf="animal() as animal">
-  <section class="details">
-    <div class="details-card">
-      <img [src]="animal.imageUrl || 'https://placedog.net/600'" [alt]="animal.type" />
-      <div class="info">
-        <h2>{{ animal.name }}</h2>
-        <p><strong>Type:</strong> {{ animal.type }}</p>
-        <p><strong>Age:</strong> {{ animal.age }} years old</p>
-        <p><strong>Location:</strong> {{ animal.location }}</p>
-        <p><strong>Description:</strong> {{ animal.description }}</p>
+<main>
+  <section id="animal-details-root" class="details">
+    <div class="container">
+      <ng-container *ngIf="animal() as a; else loading">
+        <div class="details-card">
+          <div class="image-col">
+            <img [src]="a.imageUrl" [alt]="a.name" />
+          </div>
 
-        <div class="actions" *ngIf="isLoggedIn">
-          <ng-container *ngIf="userRole === 'User'">
-            <button class="btn-like" (click)="onLike()">
-              <i class="fas fa-heart"></i> Like ({{ animal.likes || 0 }})
-            </button>
-            <a [routerLink]="['/apply', animal.id]" class="btn-primary">
-              <i class="fas fa-paw"></i> Apply for adoption
-            </a>
-          </ng-container>
+          <div class="info-col">
+            <h2 class="title">{{ a.name }}</h2>
 
-          <ng-container *ngIf="userRole === 'Shelter' && isCreator()">
-            <a [routerLink]="['/animals/edit', animal.id]" class="btn-primary" (click)="onEdit()">Edit</a>
-            <button class="btn-delete" (click)="onDelete()">Delete</button>
-          </ng-container>
+            <div class="meta">
+              <p><strong>Type:</strong> {{ a.type }}</p>
+              <p *ngIf="a.age !== undefined && a.age !== null">
+                <strong>Age:</strong> {{ a.age }}
+              </p>
+              <p *ngIf="a.location"><strong>Location:</strong> {{ a.location }}</p>
+            </div>
 
-          <ng-container *ngIf="userRole === 'Shelter' && !isCreator()">
-            <p class="warning-message">This animal is not from your shelter.</p>
-          </ng-container>
+            <p class="desc" *ngIf="a.description">{{ a.description }}</p>
+
+            <div class="likes-line">
+              <span>❤️ Likes: {{ a.likes || 0 }}</span>
+            </div>
+
+            <div class="actions">
+              <ng-container *ngIf="authService.userRole() === 'User'">
+                <button class="btn-primary" (click)="onToggleFavorite()">
+                  {{ isFavorited() ? 'Remove from favorites' : 'Add to favorites' }}
+                </button>
+                <button class="btn-secondary">Adopt</button>
+              </ng-container>
+
+              <ng-container *ngIf="authService.userRole() === 'Shelter'">
+                <ng-container *ngIf="isCreator(); else notCreator">
+                  <a [routerLink]="['/animals/edit', a.id]" class="btn-primary" (click)="onEdit()">Edit</a>
+                  <button class="btn-delete" (click)="onDelete()">Delete</button>
+                </ng-container>
+                <ng-template #notCreator>
+                  <p class="warning-message">This animal is not from your shelter.</p>
+                </ng-template>
+              </ng-container>
+            </div>
+          </div>
         </div>
-      </div>
+      </ng-container>
+
+      <ng-template #loading>
+        <div class="loading">Loading...</div>
+      </ng-template>
     </div>
   </section>
 </main>
