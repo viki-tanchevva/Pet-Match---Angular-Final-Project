@@ -1,19 +1,77 @@
 <main>
-    <section class="profile-section">
-      <h2>Добре дошли, Иван!</h2>
-
-      <div class="profile-info">
-        <p><strong>Потребителско име:</strong> ivan123</p>
-        <p><strong>Имейл:</strong> ivanexample.com</p>
-        <p><strong>Роля:</strong> Потребител</p>
+  <section class="profile">
+    <div class="card" *ngIf="!loading; else loadingTmpl">
+      <div class="header">
+        <div class="titles">
+          <h2>My profile</h2>
+          <p class="muted">Manage your account info</p>
+        </div>
       </div>
 
-      <section class="applications">
-        <h3>Моите кандидатури за осиновяване</h3>
-        <ul>
-          <li>Рекс - Статус: Очаква одобрение</li>
-          <li>Мими - Статус: Одобрено</li>
-        </ul>
-      </section>
-    </section>
-  </main>
+      <form [formGroup]="form" class="form">
+        <div class="grid-2">
+          <label>Email
+            <input formControlName="email" placeholder="you@example.com" />
+            <span class="error" *ngIf="emailError">{{ emailError }}</span>
+          </label>
+          <label>Role
+            <div class="role-wrap">
+              <input formControlName="role"
+                     readonly
+                     (click)="onRoleClick()"
+                     (keydown)="onRoleKey($event)"
+                     (paste)="onRoleKey($event)"
+                     (input)="onRoleKey($event)" />
+              <button type="button" class="role-overlay" (click)="onRoleClick()" aria-label="Role cannot be changed"></button>
+            </div>
+          </label>
+        </div>
+
+        <label>Username
+          <input formControlName="username" placeholder="Your name" />
+          <span class="error" *ngIf="usernameError">{{ usernameError }}</span>
+        </label>
+      </form>
+
+      <div class="divider" *ngIf="isEditing"></div>
+
+      <form *ngIf="isEditing" [formGroup]="passwordForm" class="form form-compact">
+        <h3>Change password</h3>
+        <div class="grid-3 compact">
+          <label>Current password
+            <input type="password" formControlName="currentPassword" />
+            <span class="error" *ngIf="pwdCurrentError">{{ pwdCurrentError }}</span>
+          </label>
+          <label>New password
+            <input type="password" formControlName="newPassword" />
+            <span class="error" *ngIf="pwdNewError">{{ pwdNewError }}</span>
+          </label>
+          <label>Confirm new password
+            <input type="password" formControlName="confirm" />
+            <span class="error" *ngIf="pwdConfirmError">{{ pwdConfirmError }}</span>
+          </label>
+        </div>
+        <p class="msg ok" *ngIf="pwdMsg">{{ pwdMsg }}</p>
+        <p class="msg err" *ngIf="pwdErr">{{ pwdErr }}</p>
+      </form>
+
+      <div class="actions bottom">
+        <ng-container *ngIf="!isEditing; else editingBtns">
+          <button class="btn primary" type="button" (click)="startEdit()">Edit profile</button>
+        </ng-container>
+
+        <ng-template #editingBtns>
+          <button class="btn primary" type="button" [disabled]="!canSave" (click)="saveAll()">Save</button>
+          <button class="btn outline" type="button" (click)="cancelEdit()">Cancel</button>
+        </ng-template>
+      </div>
+
+      <p class="msg ok" *ngIf="successMsg">{{ successMsg }}</p>
+      <p class="msg err" *ngIf="errorMsg">{{ errorMsg }}</p>
+    </div>
+
+    <ng-template #loadingTmpl>
+      <div class="loading">Loading…</div>
+    </ng-template>
+  </section>
+</main>

@@ -1,7 +1,11 @@
+export type UserRole = 'User' | 'Shelter';
+
 export interface User {
-    _id: string,
-    username: string,
-    email: string,
-    role: 'User' | 'Shelter',
-    likedAnimals?: string[]
+  _id: string;
+  email: string;
+  username?: string;
+  phone?: string;
+  avatarUrl?: string;
+  role: UserRole;
+  likedAnimals?: string[];
 }
