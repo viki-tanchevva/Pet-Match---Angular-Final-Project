@@ -61,3 +61,7 @@ textarea {
   border-left-color: red !important;
   border-color: red;
 }
+
+.apply-form .btn-primary + .btn-primary {
+  margin-left: 0.6rem;
+}

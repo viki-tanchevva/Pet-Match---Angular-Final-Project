@@ -1,162 +1,139 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ValidatorFn, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../core/services/auth.service';
+import { AnimalsService, UpdateAnimalDto } from '../../../core/services/animal.service';
 import { Animal } from '../../../models';
-import { AnimalsService } from '../../../core/services';
+
+const urlValidator: ValidatorFn = (control: AbstractControl) => {
+  const v = control.value;
+  if (!v) return null;
+  try { new URL(v); return null; } catch { return { url: true } }
+};
 
 @Component({
   selector: 'app-animal-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './animal-edit.component.html',
   styleUrls: ['./animal-edit.component.css']
 })
 export class AnimalEditComponent implements OnInit {
-  editAnimalForm!: FormGroup;
-  animalId!: string | null;
-  animal!: Animal | null;
-
-  private animalsService = inject(AnimalsService);
-  private authService = inject(AuthService);
+  private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private fb = inject(FormBuilder);
+  private animals = inject(AnimalsService);
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-ngOnInit(): void {
-  this.animalId = this.route.snapshot.paramMap.get('id');
-  console.log('Editing animal with ID:', this.animalId);
+  animalId = '';
+  loading = true;
 
-  this.createForm();
-  console.log('Form created:', this.editAnimalForm);
+  editAnimalForm = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    type: ['', [Validators.required]],
+    age: [null as number | null],
+    location: ['', [Validators.minLength(2)]],
+    imageUrl: ['', [Validators.required, urlValidator]],
+    description: ['', [Validators.minLength(5)]],
+    adopted: [false]
+  });
 
-  if (this.animalId) {
-    this.animalsService.getAnimalById(this.animalId).subscribe({
-      next: (animal) => {
-        this.animal = animal;
+  ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.animalId = this.route.snapshot.paramMap.get('id') || '';
+    if (!this.animalId) return;
+
+    this.animals.getAnimalById(this.animalId).subscribe({
+      next: (a: Animal) => {
         this.editAnimalForm.patchValue({
-          name: animal.name,
-          type: animal.type,
-          age: animal.age,
-          location: animal.location,
-          imageUrl: animal.imageUrl,
-          description: animal.description
+          name: a.name || '',
+          type: a.type || '',
+          imageUrl: a.imageUrl || '',
+          age: (a.age ?? null) as number | null,
+          location: a.location || '',
+          description: a.description || '',
+          adopted: !!a.adopted
         });
+        this.loading = false;
       },
-      error: (err) => {
-        console.error('Failed to load animal data:', err);
+      error: () => {
+        this.loading = false;
         this.router.navigate(['/animals']);
       }
     });
-  } else {
-    console.warn('No animal ID found in route parameters');
   }
-}
 
-
-  private createForm() {
-    this.editAnimalForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      type: ['', [Validators.required, this.typeValidator(['Dog', 'Cat', 'Rabbit', 'Guinea pig', 'Hamster', 'Bird', 'Turtle', 'Other'])]],
-      age: [null, [Validators.required, Validators.min(0)]],
-      location: ['', Validators.required],
-      imageUrl: ['', Validators.required],
-      description: ['', Validators.required]
+  onSubmit(): void {
+    if (!this.editAnimalForm.valid || !this.animalId) return;
+    const v = this.editAnimalForm.value;
+    const payload: UpdateAnimalDto = {
+      name: v.name!,
+      type: v.type!,
+      imageUrl: v.imageUrl!,
+      age: v.age ?? null,
+      location: v.location || '',
+      description: v.description || '',
+      adopted: !!v.adopted
+    };
+    this.animals.updateAnimal(this.animalId, payload).subscribe({
+      next: () => this.router.navigate(['/animals', this.animalId])
     });
   }
 
-  get name() { return this.editAnimalForm.get('name'); }
-  get type() { return this.editAnimalForm.get('type'); }
-  get age() { return this.editAnimalForm.get('age'); }
-  get location() { return this.editAnimalForm.get('location'); }
-  get imageUrl() { return this.editAnimalForm.get('imageUrl'); }
-  get description() { return this.editAnimalForm.get('description'); }
-
-  get nameErrorMessage(): string {
-    if (this.name?.hasError('required')) return 'Name is required!';
-    if (this.name?.hasError('minlength')) return 'Name should be at least 2 characters!';
-    return '';
+  cancel(): void {
+    if (!this.animalId) return;
+    this.router.navigate(['/animals', this.animalId]);
   }
 
+  get nameCtrl() { return this.editAnimalForm.get('name')!; }
+  get typeCtrl() { return this.editAnimalForm.get('type')!; }
+  get ageCtrl() { return this.editAnimalForm.get('age')!; }
+  get locationCtrl() { return this.editAnimalForm.get('location')!; }
+  get imageUrlCtrl() { return this.editAnimalForm.get('imageUrl')!; }
+  get descriptionCtrl() { return this.editAnimalForm.get('description')!; }
+
+  get isNameInvalid() { const c = this.nameCtrl; return c.invalid && (c.dirty || c.touched); }
+  get isTypeInvalid() { const c = this.typeCtrl; return c.invalid && (c.dirty || c.touched); }
+  get isAgeInvalid() { const c = this.ageCtrl; return c.invalid && (c.dirty || c.touched); }
+  get isLocationInvalid() { const c = this.locationCtrl; return c.invalid && (c.dirty || c.touched); }
+  get isImageUrlInvalid() { const c = this.imageUrlCtrl; return c.invalid && (c.dirty || c.touched); }
+  get isDescriptionInvalid() { const c = this.descriptionCtrl; return c.invalid && (c.dirty || c.touched); }
+
+  get nameErrorMessage(): string {
+    const c = this.nameCtrl;
+    if (c.hasError('required')) return 'Name is required';
+    if (c.hasError('minlength')) return 'Name must be at least 2 characters';
+    return '';
+    }
+
   get typeErrorMessage(): string {
-    if (this.type?.hasError('required')) return 'Type is required!';
-    if (this.type?.hasError('invalidType')) return 'Invalid type!';
+    const c = this.typeCtrl;
+    if (c.hasError('required')) return 'Type is required';
     return '';
   }
 
   get ageErrorMessage(): string {
-    if (this.age?.hasError('required')) return 'Age is required!';
-    if (this.age?.hasError('min')) return 'Age cannot be negative!';
+    const c = this.ageCtrl;
+    if (c.hasError('min')) return 'Age cannot be negative';
     return '';
   }
 
   get locationErrorMessage(): string {
-    if (this.location?.hasError('required')) return 'Location is required!';
+    const c = this.locationCtrl;
+    if (c.hasError('minlength')) return 'Location must be at least 2 characters';
     return '';
   }
 
   get imageUrlErrorMessage(): string {
-    if (this.imageUrl?.hasError('required')) return 'Image URL is required!';
+    const c = this.imageUrlCtrl;
+    if (c.hasError('required')) return 'Image URL is required';
+    if (c.hasError('url')) return 'Please enter a valid URL';
     return '';
   }
 
   get descriptionErrorMessage(): string {
-    if (this.description?.hasError('required')) return 'Description is required!';
+    const c = this.descriptionCtrl;
+    if (c.hasError('minlength')) return 'Description must be at least 5 characters';
     return '';
-  }
-
-  get isNameInvalid(): boolean {
-    return !!this.name?.invalid && (this.name?.touched || this.name?.dirty);
-  }
-
-  get isTypeInvalid(): boolean {
-    return !!this.type?.invalid && (this.type?.touched || this.type?.dirty);
-  }
-
-  get isAgeInvalid(): boolean {
-    return !!this.age?.invalid && (this.age?.touched || this.age?.dirty);
-  }
-
-  get isLocationInvalid(): boolean {
-    return !!this.location?.invalid && (this.location?.touched || this.location?.dirty);
-  }
-
-  get isImageUrlInvalid(): boolean {
-    return !!this.imageUrl?.invalid && (this.imageUrl?.touched || this.imageUrl?.dirty);
-  }
-
-  get isDescriptionInvalid(): boolean {
-    return !!this.description?.invalid && (this.description?.touched || this.description?.dirty);
-  }
-
-  onSubmit(): void {
-    this.editAnimalForm.markAllAsTouched();
-
-    if (!this.animalId) {
-      console.error('Animal ID is missing!');
-      return;
-    }
-
-    if (this.editAnimalForm.valid) {
-      const updatedAnimal = this.editAnimalForm.value;
-
-      this.animalsService.updateAnimal(this.animalId, updatedAnimal).subscribe({
-        next: () => {
-          this.router.navigate(['/animals']);
-        },
-        error: (err) => {
-          console.error('Failed to update animal!', err);
-        }
-      });
-    } else {
-      console.log('Form is invalid:', this.editAnimalForm);
-    }
-  }
-
-  private typeValidator(allowedTypes: string[]): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      return allowedTypes.includes(control.value) ? null : { invalidType: true };
-    };
   }
 }

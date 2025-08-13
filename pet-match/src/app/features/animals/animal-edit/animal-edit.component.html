@@ -45,7 +45,6 @@
         name="age"
         placeholder="Age"
         formControlName="age"
-
       />
       <p class="error" *ngIf="isAgeInvalid">
         {{ ageErrorMessage }}
@@ -90,9 +89,12 @@
         {{ descriptionErrorMessage }}
       </p>
 
-      <button type="submit" class="btn-primary" [attr.disabled]="editAnimalForm.invalid ? true : null">
-        <i class="fas fa-plus"></i> Save
-      </button>
+      <div class="actions">
+      <button type="button" class="btn-primary outline" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn-primary" [attr.disabled]="editAnimalForm.invalid ? true : null">
+          Save
+        </button>
+      </div>
     </form>
   </section>
 </main>
