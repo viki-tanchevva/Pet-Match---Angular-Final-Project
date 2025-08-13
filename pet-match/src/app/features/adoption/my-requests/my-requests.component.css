@@ -83,3 +83,21 @@ h2 {
     color: #6b7280;
     padding: 2rem 0
 }
+
+.status-msg {
+    font-weight: 700;
+    padding: .4rem .6rem;
+    border-radius: 10px
+}
+
+.status-msg.ok {
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0
+}
+
+.status-msg.danger {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca
+}

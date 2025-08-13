@@ -63,7 +63,9 @@ function getForShelter(req, res) {
   if (req.user.role !== 'Shelter') return res.status(403).json({ message: 'Only Shelter can view this' });
 
   const db = readDb();
-  const list = ensureArray(db.adoptionRequests).filter(r => String(r.shelterId) === String(req.user.id));
+  const list = ensureArray(db.adoptionRequests)
+    .filter(r => String(r.shelterId) === String(req.user.id))
+    .filter(r => r.status === 'Pending');
   const animalsById = new Map(db.animals.map(a => [a.id, a]));
   const withAnimal = list.map(r => ({ ...r, animal: animalsById.get(r.animalId) || null }));
   res.json(withAnimal);

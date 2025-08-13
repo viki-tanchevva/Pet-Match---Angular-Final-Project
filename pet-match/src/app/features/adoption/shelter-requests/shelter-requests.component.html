@@ -13,11 +13,31 @@
         </div>
         <div class="right">
           <a class="btn" [routerLink]="['/animals', r.animalId]">Details</a>
+          <button class="btn" (click)="toggle(r.id)">{{ expandedId === r.id ? 'Hide application' : 'View application' }}</button>
           <button class="btn ok" (click)="setStatus(r.id, 'Approved')">Approve</button>
           <button class="btn danger" (click)="setStatus(r.id, 'Declined')">Decline</button>
+        </div>
+        <div class="details-panel" *ngIf="expandedId === r.id">
+          <ng-container [ngSwitch]="true">
+            <ng-container *ngSwitchCase="true">
+              <div class="row" [ngClass]="{'noimg': !r.animal?.imageUrl}">
+                <img *ngIf="r.animal?.imageUrl" [src]="r.animal?.imageUrl" [alt]="r.animal?.name" />
+                <div class="info">
+                  <h4>{{ r.animal?.name || 'Animal' }}</h4>
+                  <ng-container [ngTemplateOutlet]="infoTmpl" [ngTemplateOutletContext]="parse(r.message)"></ng-container>
+                  <div class="note" *ngIf="parse(r.message).note">{{ parse(r.message).note }}</div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
         </div>
       </article>
     </div>
     <ng-template #empty><div class="empty">No requests.</div></ng-template>
+
+    <ng-template #infoTmpl let-name="name" let-phone="phone">
+      <p><strong>Applicant:</strong> {{ name || '—' }}</p>
+      <p><strong>Phone:</strong> {{ phone || '—' }}</p>
+    </ng-template>
   </section>
 </main>

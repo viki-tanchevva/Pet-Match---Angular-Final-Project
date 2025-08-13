@@ -1,8 +1,9 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, Inject, OnInit, signal, inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Animal } from '../../../models';
 import { AnimalsService, AuthService } from '../../../core/services';
+import { AdoptionService } from '../../../core/services/adoption.service';
 
 @Component({
   selector: 'app-animal-details',
@@ -15,18 +16,29 @@ export class AnimalDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private animalsService = inject(AnimalsService);
+  private adoptionService = inject(AdoptionService);
   protected authService = inject(AuthService);
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   animal = signal<Animal | null>(null);
   private favoriteIds = new Set<string>();
+  alreadyApplied = false;
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')!;
     this.animalsService.getAnimalById(id).subscribe({
-      next: (a) => this.animal.set(a),
+      next: (a) => {
+        this.animal.set(a);
+        if (isPlatformBrowser(this.platformId) && this.authService.userRole() === 'User') {
+          this.adoptionService.mine().subscribe(list => {
+            this.alreadyApplied = list.some(r => String(r.animalId) === String(id) && r.status !== 'Declined');
+          });
+        }
+      },
       error: () => this.router.navigate(['/animals'])
     });
-    if (this.authService.userRole() === 'User') {
+
+    if (isPlatformBrowser(this.platformId) && this.authService.userRole() === 'User') {
       this.animalsService.getFavoriteAnimals().subscribe({
         next: (arr) => { this.favoriteIds = new Set(arr.map(x => x.id)); }
       });
@@ -67,6 +79,11 @@ export class AnimalDetailsComponent implements OnInit {
 
   onAdopt(): void {
     const a = this.animal();
-    if (a) this.router.navigate(['/adopt', a.id]);
+    if (!a) return;
+    if (this.alreadyApplied) {
+      alert('You have already applied for this animal.');
+      return;
+    }
+    this.router.navigate(['/adopt', a.id]);
   }
 }

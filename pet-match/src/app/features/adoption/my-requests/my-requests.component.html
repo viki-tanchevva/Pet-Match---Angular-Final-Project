@@ -7,16 +7,23 @@
           <img [src]="r.animal?.imageUrl || 'https://placehold.co/160x120?text=Pet'" [alt]="r.animal?.name || 'Pet'" />
           <div>
             <h3>{{ r.animal?.name || 'Animal' }}</h3>
-            <p>Status: <strong>{{ r.status }}</strong></p>
             <p class="date">{{ r.createdAt | date:'medium' }}</p>
           </div>
         </div>
-        <div class="right">
+        <div class="right" *ngIf="r.status === 'Pending'">
           <a class="btn" [routerLink]="['/animals', r.animalId]">Details</a>
           <button class="btn danger" (click)="cancel(r.id)">Cancel</button>
         </div>
+        <div class="status-msg ok" *ngIf="r.status === 'Approved'">
+          Congratulations! This animal is yours!
+        </div>
+        <div class="status-msg danger" *ngIf="r.status === 'Declined'">
+          Unfortunately, the request has been rejected.
+        </div>
       </article>
     </div>
-    <ng-template #empty><div class="empty">No requests yet.</div></ng-template>
+    <ng-template #empty>
+      <div class="empty">No requests yet!</div>
+    </ng-template>
   </section>
 </main>

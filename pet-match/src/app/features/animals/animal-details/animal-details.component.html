@@ -1,5 +1,5 @@
 <main>
-  <section id="animal-details-root" class="details">
+  <section class="details">
     <div class="container">
       <ng-container *ngIf="animal() as a; else loading">
         <div class="details-card">
@@ -12,19 +12,15 @@
 
             <div class="meta">
               <p><strong>Type:</strong> {{ a.type }}</p>
-              <p *ngIf="a.age !== undefined && a.age !== null">
-                <strong>Age:</strong> {{ a.age }}
-              </p>
+              <p *ngIf="a.age !== undefined && a.age !== null"><strong>Age:</strong> {{ a.age }}</p>
               <p *ngIf="a.location"><strong>Location:</strong> {{ a.location }}</p>
             </div>
 
             <p class="desc" *ngIf="a.description">{{ a.description }}</p>
 
-            <div class="likes-line">
-              <span>❤️ Likes: {{ a.likes || 0 }}</span>
-            </div>
+            <div class="likes-line"><span>❤️ Likes: {{ a.likes || 0 }}</span></div>
 
-            <div class="actions">
+            <div class="actions" *ngIf="!a.adopted; else adoptedOnly">
               <ng-container *ngIf="authService.userRole() === 'User'">
                 <button class="btn-primary" (click)="onToggleFavorite()">
                   {{ isFavorited() ? 'Remove from favorites' : 'Add to favorites' }}
@@ -42,13 +38,15 @@
                 </ng-template>
               </ng-container>
             </div>
+
+            <ng-template #adoptedOnly>
+              <div class="adopted-banner">This animal has been adopted.</div>
+            </ng-template>
           </div>
         </div>
       </ng-container>
 
-      <ng-template #loading>
-        <div class="loading">Loading...</div>
-      </ng-template>
+      <ng-template #loading><div class="loading">Loading...</div></ng-template>
     </div>
   </section>
 </main>

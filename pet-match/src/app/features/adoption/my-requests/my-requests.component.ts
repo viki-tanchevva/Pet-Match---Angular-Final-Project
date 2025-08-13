@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { Component, Inject, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AdoptionService } from '../../../core/services/adoption.service';
 import { AdoptionRequest } from '../../../models/adoption-request.model';
+import { AuthService } from '../../../core/services';
 
 @Component({
   selector: 'app-my-requests',
@@ -13,9 +14,14 @@ import { AdoptionRequest } from '../../../models/adoption-request.model';
 })
 export class MyRequestsComponent {
   private adoption = inject(AdoptionService);
+  private auth = inject(AuthService);
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
   requests: AdoptionRequest[] = [];
 
   ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (this.auth.userRole() !== 'User') return;
     this.load();
   }
 

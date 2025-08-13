@@ -20,14 +20,15 @@
 
 .card {
   width: 100%;
-  max-width: 880px;
+  max-width: 980px;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
-  padding: 1.5rem;
+  padding: 1.25rem 1.25rem 1.5rem;
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 1.25rem
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
 }
 
 .animal {
@@ -35,51 +36,63 @@
   border-radius: 12px;
   padding: 1rem;
   display: grid;
-  grid-template-columns: 96px 1fr;
+  grid-template-columns: 84px minmax(0, 1fr);
   gap: .75rem;
-  align-items: center
+  align-items: center;
 }
 
 .animal img {
-  width: 96px;
-  height: 96px;
-  border-radius: 10px;
+  width: 84px;
+  height: 84px;
   object-fit: cover;
+  border-radius: 10px;
   display: block
 }
 
 .meta h2 {
-  margin: .4rem 0 .2rem
+  margin: .1rem 0 .25rem;
+  font-size: 1.35rem;
+  line-height: 1.25
+}
+
+.meta p {
+  margin: 0;
+  color: #374151
 }
 
 .form {
   display: grid;
-  gap: .75rem
+  gap: .9rem;
+  min-width: 0
 }
 
 .form h3 {
-  margin: 0 0 .5rem
+  margin: 0 0 .25rem;
+  font-size: 1.4rem
 }
 
 .row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: .75rem
 }
 
 label {
   display: grid;
   gap: .4rem;
-  font-weight: 600
+  font-weight: 600;
+  min-width: 0
 }
 
 input,
 textarea {
-  padding: .6rem .7rem;
+  width: 100%;
+  padding: .7rem .8rem;
   border: 1px solid #e5e7eb;
   border-radius: 10px;
   font: inherit;
-  outline: 0
+  outline: 0;
+  box-sizing: border-box;
 }
 
 input:focus,
@@ -92,18 +105,20 @@ textarea:focus {
   display: flex;
   gap: .6rem;
   align-items: center;
-  margin-top: .25rem
+  margin-top: .25rem;
+  flex-wrap: wrap
 }
 
 .btn {
   background: #4f46e5;
   color: #fff;
   border: 0;
-  padding: .7rem 1rem;
+  padding: .75rem 1.1rem;
   border-radius: 10px;
   font-weight: 700;
   text-decoration: none;
-  display: inline-block
+  display: inline-block;
+  cursor: pointer
 }
 
 .btn.outline {
@@ -123,21 +138,21 @@ textarea:focus {
   color: #374151
 }
 
-@media (max-width:900px) {
+@media (max-width:980px) {
   .card {
     grid-template-columns: 1fr
   }
 
-  .row {
-    grid-template-columns: 1fr
-  }
-
   .animal {
-    grid-template-columns: 72px 1fr
+    grid-template-columns: 72px minmax(0, 1fr)
   }
 
   .animal img {
     width: 72px;
     height: 72px
+  }
+
+  .row {
+    grid-template-columns: 1fr
   }
 }

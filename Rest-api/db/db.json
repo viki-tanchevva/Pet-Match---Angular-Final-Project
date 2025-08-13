@@ -59,6 +59,18 @@
       "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
       "likes": 0,
       "adopted": true
+    },
+    {
+      "id": "f1c28f2c-efed-4184-8d6b-4f58bde5adb4",
+      "name": "dudu",
+      "age": 4,
+      "type": "Rabbit",
+      "description": "cute bunny",
+      "imageUrl": "https://th.bing.com/th/id/R.6bab0eefffa5cb631ed283b1a693481c?rik=TxuPzb6Be%2fZg3w&riu=http%3a%2f%2fupload.wikimedia.org%2fwikipedia%2fcommons%2fa%2fa5%2fEuropean_Rabbit%2c_Lake_District%2c_UK_-_August_2011.jpg&ehk=VNNfDXh0lxQ8HZAy0zKRwJozwm9h2JipQ3SgGdMgcqk%3d&risl=&pid=ImgRaw&r=0",
+      "location": "Vraca",
+      "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
+      "likes": 0,
+      "adopted": false
     }
   ],
   "users": [
@@ -134,6 +146,16 @@
       "status": "Approved",
       "createdAt": "2025-08-12T21:32:10.222Z",
       "updatedAt": "2025-08-12T21:32:40.427Z"
+    },
+    {
+      "id": "dd902d8f-8f5e-478b-aa46-1141154f8bcc",
+      "animalId": "f1c28f2c-efed-4184-8d6b-4f58bde5adb4",
+      "userId": "8894ef72-eb89-462e-b94a-d7070382e5f6",
+      "shelterId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
+      "message": "Name: Viktoria Tancheva\nPhone: 0895781788\njfnhgfjgj",
+      "status": "Declined",
+      "createdAt": "2025-08-13T14:54:03.673Z",
+      "updatedAt": "2025-08-13T14:54:36.616Z"
     }
   ]
 }

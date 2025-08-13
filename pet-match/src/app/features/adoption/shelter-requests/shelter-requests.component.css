@@ -13,7 +13,7 @@
 
 .list {
     padding: 2rem 1rem;
-    max-width: 900px;
+    max-width: 980px;
     margin: 0 auto
 }
 
@@ -23,22 +23,22 @@ h2 {
 
 .grid {
     display: grid;
-    gap: .75rem
+    gap: .9rem
 }
 
 .item {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: .75rem;
     background: #fff;
     border-radius: 12px;
-    padding: .8rem 1rem;
+    padding: 1rem;
     box-shadow: 0 6px 20px rgba(0, 0, 0, .06)
 }
 
 .left {
     display: flex;
-    gap: .75rem;
+    gap: .9rem;
     align-items: center
 }
 
@@ -86,4 +86,41 @@ h2 {
     text-align: center;
     color: #6b7280;
     padding: 2rem 0
+}
+
+.details-panel {
+    border-top: 1px solid #e5e7eb;
+    padding-top: .75rem
+}
+
+.details-panel .row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: .9rem;
+    align-items: start
+}
+
+.details-panel .row.noimg {
+    grid-template-columns: 1fr
+}
+
+.details-panel img {
+    width: 120px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #f3f4f6
+}
+
+.details-panel .info h4 {
+    margin: .1rem 0 .3rem
+}
+
+.details-panel .note {
+    white-space: pre-line;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: .6rem .75rem;
+    margin-top: .4rem
 }
