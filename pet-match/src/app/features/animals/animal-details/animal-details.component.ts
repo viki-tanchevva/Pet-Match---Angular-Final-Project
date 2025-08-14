@@ -4,11 +4,12 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Animal } from '../../../models';
 import { AnimalsService, AuthService } from '../../../core/services';
 import { AdoptionService } from '../../../core/services/adoption.service';
+import { AgePipe, TruncatePipe } from '../../../shared/pipes';
 
 @Component({
   selector: 'app-animal-details',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, AgePipe, TruncatePipe],
   templateUrl: './animal-details.component.html',
   styleUrls: ['./animal-details.component.css']
 })

@@ -12,11 +12,11 @@
 
             <div class="meta">
               <p><strong>Type:</strong> {{ a.type }}</p>
-              <p *ngIf="a.age !== undefined && a.age !== null"><strong>Age:</strong> {{ a.age }}</p>
+              <p *ngIf="a.age !== undefined && a.age !== null"><strong>Age:</strong> {{ a.age | age }}</p>
               <p *ngIf="a.location"><strong>Location:</strong> {{ a.location }}</p>
             </div>
 
-            <p class="desc" *ngIf="a.description">{{ a.description }}</p>
+            <p class="desc" *ngIf="a.description">{{ a.description | truncate:110 }}</p>
 
             <div class="likes-line"><span>❤️ Likes: {{ a.likes || 0 }}</span></div>
 
