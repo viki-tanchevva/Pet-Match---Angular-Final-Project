@@ -1,13 +1,11 @@
 <main>
   <section class="catalog">
     <h2>Catalog of Animals for Adoption</h2>
-    <div class="animal-grid" *ngIf="animals.length; else noAnimals">
+    <div class="animal-grid" [@listAnimation] *ngIf="animals.length; else noAnimals">
       <app-animal-item *ngFor="let animal of animals" [animal]="animal"></app-animal-item>
     </div>
     <ng-template #noAnimals>
-      <div class="no-animals">
-        🐾 No animals yet
-      </div>
+      <div class="no-animals">🐾 No animals yet</div>
     </ng-template>
   </section>
 </main>
