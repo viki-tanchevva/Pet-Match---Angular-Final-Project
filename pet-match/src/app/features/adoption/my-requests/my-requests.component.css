@@ -1,14 +1,13 @@
 :host {
-    position: relative;
-    isolation: isolate;
-    z-index: 10
+  display: block;
+  padding-bottom: 6.5rem;
+  position: relative;
+  z-index: 5;
 }
 
-:host,
-:host * {
-    filter: none !important;
-    backdrop-filter: none !important;
-    opacity: 1 !important
+:host, :host * {
+  opacity: 1 !important;
+  filter: none !important;
 }
 
 .list {
@@ -100,4 +99,8 @@ h2 {
     background: #fef2f2;
     color: #991b1b;
     border: 1px solid #fecaca
+}
+
+@media (max-width: 600px) {
+  :host { padding-bottom: 7.5rem; }
 }

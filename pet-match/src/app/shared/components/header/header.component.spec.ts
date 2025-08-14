@@ -1,23 +1,18 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { HeaderComponent } from './header.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AuthService } from '../../../core/services';
 
 describe('HeaderComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
-
-  beforeEach(async () => {
+  it('should create', async () => {
     await TestBed.configureTestingModule({
-      imports: [HeaderComponent]
-    })
-    .compileComponents();
+      imports: [HeaderComponent, RouterTestingModule],
+      providers: [
+        { provide: AuthService, useValue: { isAuthenticated: () => true, user: () => ({ role: 'User' }) } }
+      ]
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(HeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = TestBed.createComponent(HeaderComponent);
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });

@@ -64,7 +64,6 @@
   background-color: #0288d1;
 }
 
-/* Filter badge */
 .active-filter {
   display: inline-flex;
   align-items: center;
@@ -75,7 +74,7 @@
   padding: 0.35rem 0.6rem;
   border-radius: 999px;
   font-size: 0.95rem;
-  margin: 0 auto 0.6rem auto; /* центриране под заглавието */
+  margin: 0 auto 0.6rem auto; 
   box-shadow: 0 6px 18px rgba(29, 78, 216, 0.08);
 }
 

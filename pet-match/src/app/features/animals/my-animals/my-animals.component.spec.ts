@@ -1,23 +1,18 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { MyAnimalsComponent } from './my-animals.component';
+import { AnimalsService } from '../../../core/services/animal.service';
+import { of } from 'rxjs';
 
 describe('MyAnimalsComponent', () => {
-  let component: MyAnimalsComponent;
-  let fixture: ComponentFixture<MyAnimalsComponent>;
-
-  beforeEach(async () => {
+  it('should create', async () => {
     await TestBed.configureTestingModule({
-      imports: [MyAnimalsComponent]
-    })
-    .compileComponents();
+      imports: [MyAnimalsComponent],
+      providers: [
+        { provide: AnimalsService, useValue: { loadMine: () => of([]) } }
+      ]
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(MyAnimalsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = TestBed.createComponent(MyAnimalsComponent);
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });

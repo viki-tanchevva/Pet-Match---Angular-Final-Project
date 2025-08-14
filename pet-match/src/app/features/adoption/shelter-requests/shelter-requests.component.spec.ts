@@ -1,23 +1,18 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { ShelterRequestsComponent } from './shelter-requests.component';
+import { of } from 'rxjs';
+import { AdoptionService } from '../../../core/services';
 
 describe('ShelterRequestsComponent', () => {
-  let component: ShelterRequestsComponent;
-  let fixture: ComponentFixture<ShelterRequestsComponent>;
-
-  beforeEach(async () => {
+  it('should create', async () => {
     await TestBed.configureTestingModule({
-      imports: [ShelterRequestsComponent]
-    })
-    .compileComponents();
+      imports: [ShelterRequestsComponent],
+      providers: [
+        { provide: AdoptionService, useValue: { shelterRequests: () => of([]) } }
+      ]
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(ShelterRequestsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = TestBed.createComponent(ShelterRequestsComponent);
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });

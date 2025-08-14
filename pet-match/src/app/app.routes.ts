@@ -22,6 +22,8 @@ export const routes: Routes = [
 
   { path: 'favorites', loadComponent: () => import('./features/animals/favourite-animals/favourite-animals.component').then(c => c.FavoriteAnimalsComponent), canActivate: [authGuard] },
 
+  { path: 'adopt/:animalId', loadComponent: () => import('./features/adoption/apply/apply.component').then(c => c.ApplyComponent), canActivate: [authGuard] },
+
   { path: 'my-animals', loadComponent: () => import('./features/animals/my-animals/my-animals.component').then(c => c.MyAnimalsComponent), canActivate: [authGuard, roleGuard], data: { roles: ['Shelter'] } },
 
   { path: 'my-requests', loadComponent: () => import('./features/adoption/my-requests/my-requests.component').then(c => c.MyRequestsComponent), canActivate: [authGuard] },
