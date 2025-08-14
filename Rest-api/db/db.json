@@ -71,6 +71,18 @@
       "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
       "likes": 0,
       "adopted": false
+    },
+    {
+      "id": "63cada97-b3b2-4516-805f-91c603d79987",
+      "name": "Dory",
+      "age": 3,
+      "type": "Rabbit",
+      "description": "This little turtle is looking for a lovely owner.",
+      "imageUrl": "https://coolwallpapers.me/picsup/5423150-turtle-wallpapers.jpg",
+      "location": "Sofia",
+      "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
+      "likes": 1,
+      "adopted": false
     }
   ],
   "users": [
@@ -98,7 +110,8 @@
       "role": "User",
       "likedAnimals": [
         "19bf21e6-316c-4070-963d-b93b5df02532",
-        "a625efc1-0b2b-4c4f-8945-9cacfea5ff10"
+        "a625efc1-0b2b-4c4f-8945-9cacfea5ff10",
+        "63cada97-b3b2-4516-805f-91c603d79987"
       ]
     },
     {
@@ -156,6 +169,16 @@
       "status": "Declined",
       "createdAt": "2025-08-13T14:54:03.673Z",
       "updatedAt": "2025-08-13T14:54:36.616Z"
+    },
+    {
+      "id": "f1178ee9-f891-4520-9b70-06aefe41628a",
+      "animalId": "63cada97-b3b2-4516-805f-91c603d79987",
+      "userId": "8894ef72-eb89-462e-b94a-d7070382e5f6",
+      "shelterId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
+      "message": "Name: Viktoria\nPhone: 0895781788\nI want to have a turtle at home so much.",
+      "status": "Pending",
+      "createdAt": "2025-08-14T22:43:21.628Z",
+      "updatedAt": "2025-08-14T22:43:21.628Z"
     }
   ]
 }

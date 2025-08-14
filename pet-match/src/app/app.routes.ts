@@ -16,13 +16,11 @@ export const routes: Routes = [
 
   { path: 'add-animal', redirectTo: 'animals/create', pathMatch: 'full' },
 
-  { path: 'animals/edit/:id', loadComponent: () => import('./features/animals/animal-edit/animal-edit.component').then(c => c.AnimalEditComponent), canActivate: [authGuard, roleGuard], data: { roles: ['Shelter'] } },
+ { path: 'animals/edit/:id', loadComponent: () => import('./features/animals/animal-edit/animal-edit.component').then(c => c.AnimalEditComponent), canActivate: [authGuard] },
 
   { path: 'animals/:id', loadComponent: () => import('./features/animals/animal-details/animal-details.component').then(c => c.AnimalDetailsComponent) },
 
   { path: 'favorites', loadComponent: () => import('./features/animals/favourite-animals/favourite-animals.component').then(c => c.FavoriteAnimalsComponent), canActivate: [authGuard] },
-
-  { path: 'adopt/:animalId', loadComponent: () => import('./features/adoption/apply/apply.component').then(c => c.ApplyComponent), canActivate: [authGuard] },
 
   { path: 'my-animals', loadComponent: () => import('./features/animals/my-animals/my-animals.component').then(c => c.MyAnimalsComponent), canActivate: [authGuard, roleGuard], data: { roles: ['Shelter'] } },
 
@@ -31,6 +29,8 @@ export const routes: Routes = [
   { path: 'requests', loadComponent: () => import('./features/adoption/shelter-requests/shelter-requests.component').then(c => c.ShelterRequestsComponent), canActivate: [authGuard, roleGuard], data: { roles: ['Shelter'] } },
 
   { path: 'profile', loadComponent: () => import('./features/profile/profile.component').then(c => c.ProfileComponent), canActivate: [authGuard] },
+
+  { path: 'adopt/:animalId', loadComponent: () => import('./features/adoption/apply/apply.component').then(c => c.ApplyComponent), canActivate: [authGuard] },
 
   { path: 'geo', loadComponent: () => import('./features/geo/geo.component').then(c => c.GeoComponent) },
 

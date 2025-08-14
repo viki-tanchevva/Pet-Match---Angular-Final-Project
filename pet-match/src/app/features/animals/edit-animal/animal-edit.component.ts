@@ -26,26 +26,31 @@ export class AnimalEditComponent implements OnInit {
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   animalId = '';
-  loading = true;
+  loading = false;
+  submitError = '';
 
   editAnimalForm = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
     type: ['', [Validators.required]],
-    age: [null as number | null],
-    location: ['', [Validators.minLength(2)]],
     imageUrl: ['', [Validators.required, urlValidator]],
+    age: [null as number | null],
+    location: [''],
     description: ['', [Validators.minLength(5)]],
     adopted: [false]
   });
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    this.animalId = this.route.snapshot.paramMap.get('id') || '';
-    if (!this.animalId) return;
-
-    this.animals.getAnimalById(this.animalId).subscribe({
+    const id = this.route.snapshot.paramMap.get('id') || this.route.snapshot.paramMap.get('animalId');
+    if (!id) {
+      this.router.navigate(['/animals']);
+      return;
+    }
+    this.animalId = id;
+    this.loading = true;
+    this.animals.loadById(id).subscribe({
       next: (a: Animal) => {
-        this.editAnimalForm.patchValue({
+        this.editAnimalForm.setValue({
           name: a.name || '',
           type: a.type || '',
           imageUrl: a.imageUrl || '',
@@ -64,7 +69,18 @@ export class AnimalEditComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (!this.editAnimalForm.valid || !this.animalId) return;
+    this.submitError = '';
+    this.editAnimalForm.markAllAsTouched();
+
+    if (!this.animalId) {
+      this.submitError = 'Animal not found';
+      return;
+    }
+    if (this.editAnimalForm.invalid) {
+      this.submitError = 'Please fix the highlighted fields';
+      return;
+    }
+
     const v = this.editAnimalForm.value;
     const payload: UpdateAnimalDto = {
       name: v.name!,
@@ -75,8 +91,21 @@ export class AnimalEditComponent implements OnInit {
       description: v.description || '',
       adopted: !!v.adopted
     };
+
+    this.loading = true;
     this.animals.updateAnimal(this.animalId, payload).subscribe({
-      next: () => this.router.navigate(['/animals', this.animalId])
+      next: () => {
+        this.loading = false;
+        this.router.navigate(['/animals', this.animalId]);
+      },
+      error: (err) => {
+        this.loading = false;
+        const status = err?.status;
+        if (status === 401) this.submitError = 'Please login to continue';
+        else if (status === 403) this.submitError = 'You can edit only your own animals';
+        else if (status === 404) this.submitError = 'Animal not found';
+        else this.submitError = 'Update failed. Please try again';
+      }
     });
   }
 
@@ -85,42 +114,26 @@ export class AnimalEditComponent implements OnInit {
     this.router.navigate(['/animals', this.animalId]);
   }
 
-  get nameCtrl() { return this.editAnimalForm.get('name')!; }
-  get typeCtrl() { return this.editAnimalForm.get('type')!; }
-  get ageCtrl() { return this.editAnimalForm.get('age')!; }
-  get locationCtrl() { return this.editAnimalForm.get('location')!; }
-  get imageUrlCtrl() { return this.editAnimalForm.get('imageUrl')!; }
-  get descriptionCtrl() { return this.editAnimalForm.get('description')!; }
+  get nameCtrl(): AbstractControl { return this.editAnimalForm.get('name')!; }
+  get typeCtrl(): AbstractControl { return this.editAnimalForm.get('type')!; }
+  get imageUrlCtrl(): AbstractControl { return this.editAnimalForm.get('imageUrl')!; }
+  get descriptionCtrl(): AbstractControl { return this.editAnimalForm.get('description')!; }
 
-  get isNameInvalid() { const c = this.nameCtrl; return c.invalid && (c.dirty || c.touched); }
-  get isTypeInvalid() { const c = this.typeCtrl; return c.invalid && (c.dirty || c.touched); }
-  get isAgeInvalid() { const c = this.ageCtrl; return c.invalid && (c.dirty || c.touched); }
-  get isLocationInvalid() { const c = this.locationCtrl; return c.invalid && (c.dirty || c.touched); }
-  get isImageUrlInvalid() { const c = this.imageUrlCtrl; return c.invalid && (c.dirty || c.touched); }
-  get isDescriptionInvalid() { const c = this.descriptionCtrl; return c.invalid && (c.dirty || c.touched); }
+  get isNameInvalid(): boolean { const c = this.nameCtrl; return c.touched && c.invalid; }
+  get isTypeInvalid(): boolean { const c = this.typeCtrl; return c.touched && c.invalid; }
+  get isImageUrlInvalid(): boolean { const c = this.imageUrlCtrl; return c.touched && c.invalid; }
+  get isDescriptionInvalid(): boolean { const c = this.descriptionCtrl; return c.touched && c.invalid; }
 
   get nameErrorMessage(): string {
     const c = this.nameCtrl;
     if (c.hasError('required')) return 'Name is required';
     if (c.hasError('minlength')) return 'Name must be at least 2 characters';
     return '';
-    }
+  }
 
   get typeErrorMessage(): string {
     const c = this.typeCtrl;
     if (c.hasError('required')) return 'Type is required';
-    return '';
-  }
-
-  get ageErrorMessage(): string {
-    const c = this.ageCtrl;
-    if (c.hasError('min')) return 'Age cannot be negative';
-    return '';
-  }
-
-  get locationErrorMessage(): string {
-    const c = this.locationCtrl;
-    if (c.hasError('minlength')) return 'Location must be at least 2 characters';
     return '';
   }
 

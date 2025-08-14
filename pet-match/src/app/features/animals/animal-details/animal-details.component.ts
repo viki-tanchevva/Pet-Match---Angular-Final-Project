@@ -1,10 +1,10 @@
-import { Component, Inject, OnInit, signal, inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, signal, inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Animal } from '../../../models';
-import { AnimalsService, AuthService } from '../../../core/services';
+import { AnimalsService } from '../../../core/services/animal.service';
 import { AdoptionService } from '../../../core/services/adoption.service';
-import { AgePipe } from '../../../shared/pipes';
+import { AgePipe } from '../../../shared/pipes/age.pipe';
 import { TruncatePipe } from '../../../shared/pipes/truncate.pipe';
 
 @Component({
@@ -19,73 +19,118 @@ export class AnimalDetailsComponent implements OnInit {
   private router = inject(Router);
   private animalsService = inject(AnimalsService);
   private adoptionService = inject(AdoptionService);
-  protected authService = inject(AuthService);
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  private platformId = inject(PLATFORM_ID);
 
   animal = signal<Animal | null>(null);
-  private favoriteIds = new Set<string>();
+  favorited = signal<boolean>(false);
   alreadyApplied = false;
 
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id')!;
-    this.animalsService.getAnimalById(id).subscribe({
-      next: (a) => {
-        this.animal.set(a);
-        if (isPlatformBrowser(this.platformId) && this.authService.userRole() === 'User') {
-          this.adoptionService.mine().subscribe(list => {
-            this.alreadyApplied = list.some(r => String(r.animalId) === String(id) && r.status !== 'Declined');
-          });
-        }
-      },
-      error: () => this.router.navigate(['/animals'])
-    });
-
-    if (isPlatformBrowser(this.platformId) && this.authService.userRole() === 'User') {
-      this.animalsService.getFavoriteAnimals().subscribe({
-        next: (arr) => { this.favoriteIds = new Set(arr.map(x => x.id)); }
-      });
+  authService = {
+    isAuthenticated: (): boolean => !!this.readUser(),
+    userRole: (): string => {
+      const u = this.readUser();
+      let role: any =
+        u?.role ??
+        (Array.isArray(u?.roles) ? u.roles[0] : undefined) ??
+        (u?.isShelter ? 'Shelter' : u?.isUser ? 'User' : undefined) ??
+        u?.userType ??
+        u?.type ??
+        '';
+      role = String(role).trim().toLowerCase();
+      if (role === 'shelter') return 'Shelter';
+      if (role === 'user') return 'User';
+      return role ? role.charAt(0).toUpperCase() + role.slice(1) : '';
     }
-  }
+  };
 
-  onToggleFavorite(): void {
-    const current = this.animal();
-    if (!current || this.authService.userRole() !== 'User') return;
-    this.animalsService.toggleFavorite(current.id).subscribe({
-      next: (res) => {
-        const a = this.animal();
-        if (a) this.animal.set({ ...a, likes: res.likes });
-        if (res.liked) this.favoriteIds.add(current.id);
-        else this.favoriteIds.delete(current.id);
+  ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) return;
+    this.animalsService.loadById(id).subscribe({
+      next: a => {
+        this.animal.set(a);
+        const anyA: any = a as any;
+        const initFav = anyA.isFavorite ?? anyA.favourite ?? anyA.likedByCurrentUser ?? false;
+        this.favorited.set(!!initFav);
       }
     });
   }
 
   isFavorited(): boolean {
-    const a = this.animal();
-    return !!a && this.favoriteIds.has(a.id);
+    return this.favorited();
   }
 
   isCreator(): boolean {
+    const u = this.readUser();
+    if (!u) return false;
     const a = this.animal();
-    const user = this.authService.currentUser();
-    if (!a || !user) return false;
-    return String(user._id) === String(a.addedByUserId);
+    if (!a) return false;
+    const userId = this.readUserId(u);
+    const ownerCandidates = ['addedByUserId', 'ownerId', 'userId', 'authorId', 'shelterId', 'createdBy', 'addedBy'];
+    let ownerVal = '';
+    for (const k of ownerCandidates) {
+      const v = (a as any)?.[k];
+      if (v !== undefined && v !== null && String(v).length > 0) {
+        ownerVal = String(v);
+        break;
+      }
+    }
+    return userId.length > 0 && ownerVal.length > 0 && userId === ownerVal;
+  }
+
+  onToggleFavorite(): void {
+    const a = this.animal();
+    if (!a) return;
+    this.animalsService.toggleFavorite(a.id).subscribe({
+      next: (res: any) => {
+        if (typeof res?.favorited === 'boolean') this.favorited.set(res.favorited);
+        else this.favorited.set(!this.favorited());
+        if (typeof res?.likes === 'number') this.animal.set({ ...a, likes: res.likes });
+      },
+      error: () => {}
+    });
   }
 
   onEdit(): void {
     const a = this.animal();
-    if (a) this.router.navigate(['/animals/edit', a.id]);
+    if (!a) return;
+    this.router.navigate(['/animals/edit', a.id]);
   }
 
-  onDelete(): void {}
+  onDelete(): void {
+    const a = this.animal();
+    if (!a) return;
+    const ok = confirm('Delete this animal?');
+    if (!ok) return;
+    this.animalsService.deleteAnimal(a.id).subscribe({
+      next: () => this.router.navigate(['/animals']),
+      error: () => alert('Delete failed. Please try again')
+    });
+  }
 
   onAdopt(): void {
     const a = this.animal();
     if (!a) return;
-    if (this.alreadyApplied) {
-      alert('You have already applied for this animal.');
-      return;
-    }
+    if (this.alreadyApplied) return;
     this.router.navigate(['/adopt', a.id]);
+  }
+
+  private readUser(): any {
+    try {
+      const keys = ['user', 'currentUser', 'auth', 'profile'];
+      for (const k of keys) {
+        const raw = localStorage.getItem(k);
+        if (raw) return JSON.parse(raw);
+      }
+      return null;
+    } catch {
+      return null;
+    }
+  }
+
+  private readUserId(u: any): string {
+    const id = u?._id ?? u?.id ?? u?.userId ?? u?.uid ?? (typeof u?.user === 'object' ? u.user?._id || u.user?.id : undefined);
+    return String(id || '');
   }
 }
