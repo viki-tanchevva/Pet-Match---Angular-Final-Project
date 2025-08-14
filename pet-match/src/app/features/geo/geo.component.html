@@ -1,0 +1,26 @@
+<main class="geo">
+  <section class="hero">
+    <h2>Find shelters near me</h2>
+    <p>Use your location to discover nearby cities and view available animals.</p>
+    <button class="primary" (click)="locate()">Use my location</button>
+    <div class="status error" *ngIf="error">{{ error }}</div>
+    <div class="status ok" *ngIf="!error && lat !== null && lng !== null">Lat: {{ lat }}, Lng: {{ lng }}</div>
+  </section>
+
+  <section class="canvas-wrap">
+    <canvas #mapCanvas width="560" height="280"></canvas>
+  </section>
+
+  <section class="nearby" *ngIf="nearby.length">
+    <h3>Suggested cities</h3>
+    <ul>
+      <li *ngFor="let n of nearby">
+        <div class="city">
+          <span class="name">{{ n.city }}</span>
+          <span class="dist">{{ n.distanceKm }} km</span>
+        </div>
+        <button class="ghost" (click)="viewAnimals(n.city)">View animals</button>
+      </li>
+    </ul>
+  </section>
+</main>

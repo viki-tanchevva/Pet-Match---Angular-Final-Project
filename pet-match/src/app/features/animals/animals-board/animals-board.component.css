@@ -63,3 +63,41 @@
 .btn-primary:hover {
   background-color: #0288d1;
 }
+
+/* Filter badge */
+.active-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #bfdbfe;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  margin: 0 auto 0.6rem auto; /* центриране под заглавието */
+  box-shadow: 0 6px 18px rgba(29, 78, 216, 0.08);
+}
+
+.active-filter strong {
+  color: #1d4ed8;
+}
+
+.active-filter .clear {
+  background: #ffffff;
+  border: 1px solid #93c5fd;
+  color: #1d4ed8;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 1;
+  transition: background 120ms ease, color 120ms ease, transform 120ms ease, box-shadow 120ms ease;
+}
+
+.active-filter .clear:hover {
+  background: #e0ecff;
+  color: #1e40af;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(29, 78, 216, 0.12);
+}

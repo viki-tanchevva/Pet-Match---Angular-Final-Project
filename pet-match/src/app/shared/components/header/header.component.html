@@ -1,24 +1,23 @@
 <header>
   <div class="container">
     <h1 class="logo">🐾 <span>PetMatch</span></h1>
-    <nav>
-      <nav>
-        <a routerLink="/home">Home</a>
-        <a routerLink="/animals">Animals</a>
+    <nav class="main-nav">
+      <a routerLink="/home">Home</a>
+      <a routerLink="/animals">Animals</a>
+      <a routerLink="/geo" class="geo-link">Near me</a>
 
-        <a *ngIf="!isLoggedIn()" routerLink="/login">Login</a>
-        <a *ngIf="!isLoggedIn()" routerLink="/register">Register</a>
+      <a *ngIf="!isLoggedIn()" routerLink="/login">Login</a>
+      <a *ngIf="!isLoggedIn()" routerLink="/register">Register</a>
 
-        <a *ngIf="isLoggedIn() && userRole() === 'Shelter'" routerLink="/add-animal">Add animal</a>
-        <a *ngIf="isLoggedIn() && userRole() === 'Shelter'" routerLink="/my-animals">My animals</a>
-        <a *ngIf="isLoggedIn() && userRole() === 'Shelter'" routerLink="/requests">Requests</a>
+      <a *ngIf="isLoggedIn() && userRole() === 'Shelter'" routerLink="/add-animal">Add animal</a>
+      <a *ngIf="isLoggedIn() && userRole() === 'Shelter'" routerLink="/my-animals">My animals</a>
+      <a *ngIf="isLoggedIn() && userRole() === 'Shelter'" routerLink="/requests">Requests</a>
 
-        <a *ngIf="isLoggedIn() && userRole() === 'User'" routerLink="/favorites">Favorites</a>
-        <a *ngIf="isLoggedIn() && userRole() === 'User'" routerLink="/my-requests">My requests</a>
+      <a *ngIf="isLoggedIn() && userRole() === 'User'" routerLink="/favorites">Favorites</a>
+      <a *ngIf="isLoggedIn() && userRole() === 'User'" routerLink="/my-requests">My requests</a>
 
-        <a *ngIf="isLoggedIn()" routerLink="/profile">Profile</a>
-        <a *ngIf="isLoggedIn()" href="#" (click)="logout()">Logout</a>
-      </nav>
+      <a *ngIf="isLoggedIn()" routerLink="/profile">Profile</a>
+      <a *ngIf="isLoggedIn()" href="#" (click)="logout()">Logout</a>
     </nav>
   </div>
 </header>

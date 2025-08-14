@@ -30,5 +30,7 @@ export const routes: Routes = [
 
   { path: 'profile', loadComponent: () => import('./features/profile/profile.component').then(c => c.ProfileComponent), canActivate: [authGuard] },
 
+  { path: 'geo', loadComponent: () => import('./features/geo/geo.component').then(c => c.GeoComponent) },
+
   { path: '**', loadComponent: () => import('./shared/components/not-found/not-found.component').then(c => c.NotFoundComponent) }
 ];

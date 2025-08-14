@@ -4,7 +4,8 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Animal } from '../../../models';
 import { AnimalsService, AuthService } from '../../../core/services';
 import { AdoptionService } from '../../../core/services/adoption.service';
-import { AgePipe, TruncatePipe } from '../../../shared/pipes';
+import { AgePipe } from '../../../shared/pipes';
+import { TruncatePipe } from '../../../shared/pipes/truncate.pipe';
 
 @Component({
   selector: 'app-animal-details',
