@@ -36,7 +36,6 @@
       <div class="divider" *ngIf="isEditing"></div>
 
       <form *ngIf="isEditing" [formGroup]="passwordForm" class="form form-compact">
-        <h3>Change password</h3>
         <div class="grid-3 compact">
           <label>Current password
             <input type="password" formControlName="currentPassword" />
