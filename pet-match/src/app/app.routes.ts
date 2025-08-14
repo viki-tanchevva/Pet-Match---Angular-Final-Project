@@ -17,5 +17,7 @@ export const routes: Routes = [
     { path: 'requests', loadComponent: () => import('./features/adoption/shelter-requests/shelter-requests.component').then(c => c.ShelterRequestsComponent) },
 
     { path: 'profile', loadComponent: () => import('./features/profile/profile.component').then(c => c.ProfileComponent) },
-    { path: '**', redirectTo: '/home' }
+
+    { path: '**', loadComponent: () => import('./shared/components/not-found/not-found.component').then(c => c.NotFoundComponent) }
+
 ];
