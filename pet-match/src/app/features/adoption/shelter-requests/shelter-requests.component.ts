@@ -1,53 +1,62 @@
-import { Component, Inject, inject, PLATFORM_ID } from '@angular/core';
-import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
-import { AdoptionService } from '../../../core/services/adoption.service';
-import { AdoptionRequest, AdoptionStatus } from '../../../models/adoption-request.model';
-import { AuthService } from '../../../core/services';
-
-type ParsedInfo = { name: string; phone: string; note: string };
 
 @Component({
   selector: 'app-shelter-requests',
   standalone: true,
-  imports: [CommonModule, RouterLink, DatePipe],
+  imports: [CommonModule, RouterLink],
   templateUrl: './shelter-requests.component.html',
   styleUrls: ['./shelter-requests.component.css']
 })
-export class ShelterRequestsComponent {
-  private adoption = inject(AdoptionService);
-  private auth = inject(AuthService);
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+export class ShelterRequestsComponent implements OnInit {
+  private http = inject(HttpClient);
 
-  requests: AdoptionRequest[] = [];
+  requests: any[] = [];
   expandedId: string | null = null;
 
   ngOnInit(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
-    if (this.auth.userRole() !== 'Shelter') return;
-    this.load();
+    this.loadRequests();
   }
 
-  load(): void {
-    this.adoption.forShelter().subscribe(r => this.requests = r);
+  private loadRequests(): void {
+    this.http.get<any[]>('http://localhost:3000/api/adoptionRequests/for-shelter', { withCredentials: true })
+      .subscribe(arr => {
+        const data = Array.isArray(arr) ? arr : [];
+        this.requests = data;
+      });
   }
 
   toggle(id: string): void {
     this.expandedId = this.expandedId === id ? null : id;
   }
 
-  setStatus(id: string, status: AdoptionStatus): void {
-    this.adoption.updateStatus(id, status).subscribe(() => this.load());
+  parse(msg: any): { name?: string; phone?: string; note?: string } {
+    if (!msg) return {};
+    if (typeof msg === 'object') {
+      const name = String((msg as any).name ?? (msg as any).applicant ?? '').trim() || undefined;
+      const phone = String((msg as any).phone ?? (msg as any).tel ?? '').trim() || undefined;
+      const note = String((msg as any).note ?? (msg as any).message ?? '').trim() || undefined;
+      return { name, phone, note };
+    }
+    const s = String(msg);
+    const nameMatch = s.match(/name\s*[:\-]\s*([^\n,]+)/i) || s.match(/applicant\s*[:\-]\s*([^\n,]+)/i);
+    const phoneMatch = s.match(/phone\s*[:\-]\s*([\d\s\+\-\(\)]+)/i) || s.match(/tel\s*[:\-]\s*([\d\s\+\-\(\)]+)/i);
+    const noteMatch = s.match(/note\s*[:\-]\s*([\s\S]+)/i) || s.match(/message\s*[:\-]\s*([\s\S]+)/i);
+    return {
+      name: nameMatch ? nameMatch[1].trim() : undefined,
+      phone: phoneMatch ? phoneMatch[1].trim() : undefined,
+      note: noteMatch ? noteMatch[1].trim() : undefined
+    };
   }
 
-  parse(msg: string): ParsedInfo {
-    const lines = (msg || '').split(/\r?\n/).map(s => s.trim()).filter(Boolean);
-    let name = '', phone = '', note = '';
-    for (const l of lines) {
-      if (!name && /^name\s*:/i.test(l)) name = l.replace(/^name\s*:/i, '').trim();
-      else if (!phone && /^phone\s*:/i.test(l)) phone = l.replace(/^phone\s*:/i, '').trim();
-      else note += (note ? '\n' : '') + l;
-    }
-    return { name, phone, note };
+  setStatus(id: string, status: 'Approved' | 'Declined'): void {
+    const body = { status };
+    this.http.patch(`http://localhost:3000/api/adoptionRequests/${id}`, body, { withCredentials: true })
+      .subscribe(() => {
+        this.requests = this.requests.map(r => (r.id === id || r._id === id) ? { ...r, status } : r);
+        this.loadRequests();
+      });
   }
 }

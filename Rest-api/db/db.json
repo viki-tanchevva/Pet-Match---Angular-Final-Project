@@ -9,7 +9,7 @@
       "imageUrl": "https://www.thespruce.com/thmb/vJwdUdyeS-VvR1p2X1CTlAMqx7o=/3430x2278/filters:fill(auto,1)/Birdhouse-GettyImages-166004939-59f94b78d088c0001008bce6.jpg",
       "location": "Varna",
       "addedByUserId": "3820daf5-358c-4e7b-9863-361cb0f17d52",
-      "likes": 0,
+      "likes": 1,
       "adopted": false
     },
     {
@@ -82,7 +82,7 @@
       "location": "Sofia",
       "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
       "likes": 1,
-      "adopted": false
+      "adopted": true
     },
     {
       "id": "9ea079b2-bc7a-4c2a-877b-8d9ffeb7f702",
@@ -93,7 +93,19 @@
       "imageUrl": "https://th.bing.com/th/id/R.59b8d0289f4bf50d203c013009ac9181?rik=QeOl6XUZXDdDoA&riu=http%3a%2f%2fwww.letstryfoods.com%2fcdn%2fshop%2fproducts%2f849a8a_996b4060626a40f2ac4374b20b269753_mv2_6f359960-d134-4d39-8e71-74a94865205e.png%3fv%3d1679292681&ehk=YacJdo1ZdJRZHW9xYISuvDltAHcpkeOfy5FoeafIzMo%3d&risl=&pid=ImgRaw&r=0",
       "location": "Gotse Delchev",
       "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
-      "likes": 0,
+      "likes": 1,
+      "adopted": false
+    },
+    {
+      "id": "2e025479-e5e7-4244-8d18-a9510087f7b4",
+      "name": "hyujk",
+      "age": 2,
+      "type": "Rabbit",
+      "description": "ggg",
+      "imageUrl": "ttt",
+      "location": "ggt",
+      "addedByUserId": "c5b876a6-c5f1-48b0-af3a-bf7e3bd0e44e",
+      "likes": 2,
       "adopted": false
     }
   ],
@@ -121,10 +133,13 @@
       "passwordHash": "$2b$10$rxtoywdYpL.pS1gj0aWgZe9UU7Qiv5jns.iJ7LJB4.xLAcfYQTuPS",
       "role": "User",
       "likedAnimals": [
-        "19bf21e6-316c-4070-963d-b93b5df02532",
         "a625efc1-0b2b-4c4f-8945-9cacfea5ff10",
         "63cada97-b3b2-4516-805f-91c603d79987",
-        "39f1aceb-df79-40c5-8b5f-8666ffa90651"
+        "39f1aceb-df79-40c5-8b5f-8666ffa90651",
+        "19bf21e6-316c-4070-963d-b93b5df02532",
+        "9ea079b2-bc7a-4c2a-877b-8d9ffeb7f702",
+        "e72a12a3-f65e-4ca0-a680-5692fead68cc",
+        "2e025479-e5e7-4244-8d18-a9510087f7b4"
       ]
     },
     {
@@ -203,6 +218,24 @@
         "4993e90a-8c00-4b96-996a-534aeba3b2ee",
         "19bf21e6-316c-4070-963d-b93b5df02532"
       ]
+    },
+    {
+      "id": "c5b876a6-c5f1-48b0-af3a-bf7e3bd0e44e",
+      "username": "hyujii",
+      "email": "hgytu@abv.bg",
+      "passwordHash": "$2b$10$LUTT24t76uZbF0SkN8jtcez6abCcsj9ajEqOqAkQJYij15lMw/EGC",
+      "role": "Shelter",
+      "likedAnimals": []
+    },
+    {
+      "id": "e9e3edd8-c2fc-4132-b714-6af7a2a7ab57",
+      "username": "yuuui",
+      "email": "itt@abv.bg",
+      "passwordHash": "$2b$10$Zm0r8XOAqHQFv.bwiPB.BOdzuyF2Cfy4ZA2I9mw6cEcMHXupr3Fu2",
+      "role": "User",
+      "likedAnimals": [
+        "2e025479-e5e7-4244-8d18-a9510087f7b4"
+      ]
     }
   ],
   "adoptionRequests": [
@@ -242,19 +275,9 @@
       "userId": "8894ef72-eb89-462e-b94a-d7070382e5f6",
       "shelterId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
       "message": "Name: Viktoria\nPhone: 0895781788\nI want to have a turtle at home so much.",
-      "status": "Pending",
+      "status": "Approved",
       "createdAt": "2025-08-14T22:43:21.628Z",
-      "updatedAt": "2025-08-14T22:43:21.628Z"
-    },
-    {
-      "id": "1efc6b1f-3f05-4245-b67f-9cfeb06511e7",
-      "animalId": "39f1aceb-df79-40c5-8b5f-8666ffa90651",
-      "userId": "8894ef72-eb89-462e-b94a-d7070382e5f6",
-      "shelterId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
-      "message": "Name: fff\nPhone: fff\nfff",
-      "status": "Pending",
-      "createdAt": "2025-08-15T22:03:22.441Z",
-      "updatedAt": "2025-08-15T22:03:22.441Z"
+      "updatedAt": "2025-08-15T22:26:56.416Z"
     },
     {
       "id": "31ecb0c8-b4c5-4559-8f69-5742b1136459",
@@ -265,6 +288,26 @@
       "status": "Pending",
       "createdAt": "2025-08-15T22:08:21.450Z",
       "updatedAt": "2025-08-15T22:08:21.450Z"
+    },
+    {
+      "id": "f6be6bef-121b-4ca2-893c-21be234b3b2b",
+      "animalId": "9ea079b2-bc7a-4c2a-877b-8d9ffeb7f702",
+      "userId": "8894ef72-eb89-462e-b94a-d7070382e5f6",
+      "shelterId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
+      "message": "Name: kk\nPhone: kkk\nlast try",
+      "status": "Declined",
+      "createdAt": "2025-08-15T22:28:11.482Z",
+      "updatedAt": "2025-08-15T22:28:43.136Z"
+    },
+    {
+      "id": "551133e7-76b7-4b8a-82d4-d69a26883b6d",
+      "animalId": "2e025479-e5e7-4244-8d18-a9510087f7b4",
+      "userId": "e9e3edd8-c2fc-4132-b714-6af7a2a7ab57",
+      "shelterId": "c5b876a6-c5f1-48b0-af3a-bf7e3bd0e44e",
+      "message": "Name: ll\nPhone: lll\nlll",
+      "status": "Declined",
+      "createdAt": "2025-08-15T22:30:48.631Z",
+      "updatedAt": "2025-08-15T22:31:45.121Z"
     }
   ]
 }
