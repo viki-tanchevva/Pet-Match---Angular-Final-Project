@@ -1,9 +1,26 @@
 import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimalsService, UpdateAnimalDto } from '../../../core/services/animal.service';
 import { Animal } from '../../../models';
+
+/** Валидатор: URL, но валидира само ако полето е dirty */
+const urlWhenDirty: ValidatorFn = (control: AbstractControl) => {
+  const v = control.value;
+  // ако не е пипано или празно — не блокира формата
+  if (!control.dirty || !v) return null;
+  try { new URL(v); return null; } catch { return { url: true }; }
+};
+
+/** Валидатор: мин. дължина, но само ако полето е dirty */
+const minLenWhenDirty = (n: number): ValidatorFn => {
+  return (control: AbstractControl) => {
+    const v = control.value ?? '';
+    if (!control.dirty) return null;
+    return String(v).trim().length >= n ? null : { minlength: { requiredLength: n, actualLength: String(v).trim().length } };
+  };
+};
 
 @Component({
   selector: 'app-animal-edit',
@@ -22,14 +39,18 @@ export class AnimalEditComponent implements OnInit {
   animalId = '';
   loading = true;
 
-  // НИКАКВИ ВАЛИДАТОРИ за теста
+  /** Забележи:
+   * - name/type са задължителни (валидни винаги, не само dirty)
+   * - location/description имат minLength, НО само когато са dirty
+   * - imageUrl има URL валидатор, НО само когато е dirty
+   */
   editAnimalForm = this.fb.group({
-    name: [''],
-    type: [''],
-    age: [null as number | null],
-    location: [''],
-    imageUrl: [''],
-    description: [''],
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    type: ['', [Validators.required]],
+    age: [null as number | null], // опционално
+    location: ['', [minLenWhenDirty(2)]],
+    imageUrl: ['', [urlWhenDirty]],
+    description: ['', [minLenWhenDirty(5)]],
     adopted: [false],
   });
 
@@ -49,6 +70,8 @@ export class AnimalEditComponent implements OnInit {
           description: a.description || '',
           adopted: !!a.adopted,
         });
+        // важно: изчистваме „dirty“ след зареждане, за да валидираме само бъдещи промени
+        this.editAnimalForm.markAsPristine();
         this.loading = false;
       },
       error: () => {
@@ -58,26 +81,50 @@ export class AnimalEditComponent implements OnInit {
     });
   }
 
-  // Насилваме submit, без никакви проверки
+  /** Може ли да се събмитне сега? */
+  get canSubmit(): boolean {
+    const f = this.editAnimalForm;
+    if (!f) return false;
+
+    // 1) задължителните полета (валидни винаги)
+    const requiredOk = this.nameCtrl.valid && this.typeCtrl.valid;
+    if (!requiredOk) return false;
+
+    // 2) има поне една промяна
+    if (!f.dirty) return false;
+
+    // 3) всички D I R T Y контроли са валидни
+    const controls = f.controls;
+    for (const key of Object.keys(controls)) {
+      const c = controls[key as keyof typeof controls]!;
+      if (c.dirty && c.invalid) return false;
+    }
+    return true;
+  }
+
   onSubmit(): void {
     if (!this.animalId) return;
 
-    const v = this.editAnimalForm.getRawValue();
-    const payload: UpdateAnimalDto = {
-      name: v.name || '',
-      type: v.type || '',
-      imageUrl: v.imageUrl || '',
-      age: v.age ?? null,
-      location: v.location || '',
-      description: v.description || '',
-      adopted: !!v.adopted,
-    };
+    if (!this.canSubmit) {
+      this.editAnimalForm.markAllAsTouched();
+      return;
+    }
 
-    console.log('[EDIT] submitting payload', payload);
+    // изпращаме само променените (dirty) полета → частичен update
+    const c = this.editAnimalForm.controls;
+    const payload: UpdateAnimalDto = {};
+    if (c.name.dirty) payload.name = String(c.name.value || '').trim();
+    if (c.type.dirty) payload.type = String(c.type.value || '').trim();
+    if (c.imageUrl.dirty) payload.imageUrl = String(c.imageUrl.value || '').trim();
+    if (c.age.dirty) payload.age = (c.age.value as number | null) ?? null;
+    if (c.location.dirty) payload.location = String(c.location.value || '').trim();
+    if (c.description.dirty) payload.description = String(c.description.value || '').trim();
+    if (c.adopted.dirty) payload.adopted = !!c.adopted.value;
+
     this.animals.updateAnimal(this.animalId, payload).subscribe({
       next: () => this.router.navigate(['/animals', this.animalId]),
       error: (e) => {
-        console.error('[EDIT] error', e);
+        console.error(e);
         alert(e?.error?.message || 'Update failed');
       },
     });
@@ -88,7 +135,7 @@ export class AnimalEditComponent implements OnInit {
     this.router.navigate(['/animals', this.animalId]);
   }
 
-  // Гетъри за шаблона (да не гърми)
+  // ---- Getters за template ----
   get nameCtrl() { return this.editAnimalForm.get('name')!; }
   get typeCtrl() { return this.editAnimalForm.get('type')!; }
   get ageCtrl() { return this.editAnimalForm.get('age')!; }
@@ -96,17 +143,38 @@ export class AnimalEditComponent implements OnInit {
   get imageUrlCtrl() { return this.editAnimalForm.get('imageUrl')!; }
   get descriptionCtrl() { return this.editAnimalForm.get('description')!; }
 
-  get isNameInvalid() { return false; }
-  get isTypeInvalid() { return false; }
-  get isAgeInvalid() { return false; }
-  get isLocationInvalid() { return false; }
-  get isImageUrlInvalid() { return false; }
-  get isDescriptionInvalid() { return false; }
+  get isNameInvalid() { return this.nameCtrl.invalid && (this.nameCtrl.touched || this.nameCtrl.dirty); }
+  get isTypeInvalid() { return this.typeCtrl.invalid && (this.typeCtrl.touched || this.typeCtrl.dirty); }
+  get isAgeInvalid() { return this.ageCtrl.invalid && (this.ageCtrl.touched || this.ageCtrl.dirty); }           // без валидатори → false
+  get isLocationInvalid() { return this.locationCtrl.invalid && (this.locationCtrl.touched || this.locationCtrl.dirty); }
+  get isImageUrlInvalid() { return this.imageUrlCtrl.invalid && (this.imageUrlCtrl.touched || this.imageUrlCtrl.dirty); }
+  get isDescriptionInvalid() { return this.descriptionCtrl.invalid && (this.descriptionCtrl.touched || this.descriptionCtrl.dirty); }
 
-  get nameErrorMessage() { return ''; }
-  get typeErrorMessage() { return ''; }
-  get ageErrorMessage() { return ''; }
-  get locationErrorMessage() { return ''; }
-  get imageUrlErrorMessage() { return ''; }
-  get descriptionErrorMessage() { return ''; }
+  get nameErrorMessage(): string {
+    const c = this.nameCtrl;
+    if (c.hasError('required')) return 'Name is required';
+    if (c.hasError('minlength')) return 'Name must be at least 2 characters';
+    return '';
+  }
+  get typeErrorMessage(): string {
+    const c = this.typeCtrl;
+    if (c.hasError('required')) return 'Type is required';
+    return '';
+  }
+  get ageErrorMessage(): string { return ''; }
+  get locationErrorMessage(): string {
+    const c = this.locationCtrl;
+    if (c.hasError('minlength')) return 'Location must be at least 2 characters';
+    return '';
+  }
+  get imageUrlErrorMessage(): string {
+    const c = this.imageUrlCtrl;
+    if (c.hasError('url')) return 'Please enter a valid URL (e.g. https://example.com/img.jpg)';
+    return '';
+  }
+  get descriptionErrorMessage(): string {
+    const c = this.descriptionCtrl;
+    if (c.hasError('minlength')) return 'Description must be at least 5 characters';
+    return '';
+  }
 }

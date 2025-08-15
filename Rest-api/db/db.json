@@ -39,7 +39,7 @@
     {
       "id": "489e7617-347c-4825-9a2d-badac0bcd629",
       "name": "Stewart",
-      "age": 2,
+      "age": 1,
       "type": "Guinea pig",
       "description": "A gentle guinea pig looking for a loving home. Calm, curious, and loves snacks!",
       "imageUrl": "https://th.bing.com/th/id/R.a511c07d7d6c29c38f6c0bf06360be59?rik=yONhrAZdaFSJJw&pid=ImgRaw&r=0",
@@ -85,15 +85,15 @@
       "adopted": false
     },
     {
-      "id": "aa7963df-7f7c-4541-b063-6d7c74bfe778",
-      "name": "cc",
-      "age": 3,
-      "type": "Guinea pig",
-      "description": "kkkk",
-      "imageUrl": "cc",
-      "location": "cc",
+      "id": "39f1aceb-df79-40c5-8b5f-8666ffa90651",
+      "name": "last try",
+      "age": 2,
+      "type": "Other",
+      "description": "last test before its resdy",
+      "imageUrl": "https://th.bing.com/th/id/R.59b8d0289f4bf50d203c013009ac9181?rik=QeOl6XUZXDdDoA&riu=http%3a%2f%2fwww.letstryfoods.com%2fcdn%2fshop%2fproducts%2f849a8a_996b4060626a40f2ac4374b20b269753_mv2_6f359960-d134-4d39-8e71-74a94865205e.png%3fv%3d1679292681&ehk=YacJdo1ZdJRZHW9xYISuvDltAHcpkeOfy5FoeafIzMo%3d&risl=&pid=ImgRaw&r=0",
+      "location": "Gotse Delchev",
       "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
-      "likes": 0,
+      "likes": 1,
       "adopted": false
     }
   ],
@@ -123,14 +123,15 @@
       "likedAnimals": [
         "19bf21e6-316c-4070-963d-b93b5df02532",
         "a625efc1-0b2b-4c4f-8945-9cacfea5ff10",
-        "63cada97-b3b2-4516-805f-91c603d79987"
+        "63cada97-b3b2-4516-805f-91c603d79987",
+        "39f1aceb-df79-40c5-8b5f-8666ffa90651"
       ]
     },
     {
       "id": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
       "username": "shelter",
       "email": "shelter@abv.bg",
-      "passwordHash": "$2b$10$4PfJKsNg3E5awPph6KguXeeK5f6uaA2MXuDX0tUzYRMkdZThijSm2",
+      "passwordHash": "$2b$10$7U9DcU8ZoA4p.9ya0kkLuOAE45obuUI2NMk1jJYf42hlMEWk48zAy",
       "role": "Shelter",
       "likedAnimals": []
     },
@@ -147,6 +148,14 @@
       "username": "dani-tanchev",
       "email": "dani@abv.bg",
       "passwordHash": "$2b$10$tZzvqBLoIpt1y20/M5sU.OMguKSIxWNMwbw2jzJ95Xs8sbAgmTxKq",
+      "role": "User",
+      "likedAnimals": []
+    },
+    {
+      "id": "b8dba779-a360-4156-9ae9-534a08efe780",
+      "username": "testt",
+      "email": "test@abv.bg",
+      "passwordHash": "$2b$10$GJ1YjuahrJtHbxlsDHERpejshm78Va8enzGVsg0B97iwzc5BTbqfu",
       "role": "User",
       "likedAnimals": []
     }

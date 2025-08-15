@@ -1,31 +1,93 @@
 <main>
   <section class="apply-section">
-    <!-- махаме ngSubmit и ползваме директно (click), за да сме сигурни че се вика -->
-    <form class="apply-form" [formGroup]="editAnimalForm">
+    <form class="apply-form" [formGroup]="editAnimalForm" (ngSubmit)="onSubmit()" novalidate>
       <h2>Edit animal</h2>
 
       <label for="name">Name</label>
-      <input type="text" id="name" name="name" placeholder="Name" formControlName="name" />
+      <input
+        [class.input-error]="isNameInvalid"
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Name"
+        formControlName="name"
+      />
+      <p class="error" *ngIf="isNameInvalid">
+        {{ nameErrorMessage }}
+      </p>
 
       <label for="type">Type</label>
-      <input type="text" id="type" name="type" placeholder="Type" formControlName="type" />
+      <input
+        [class.input-error]="isTypeInvalid"
+        type="text"
+        id="type"
+        name="type"
+        placeholder="Type"
+        formControlName="type"
+      />
+      <p class="error" *ngIf="isTypeInvalid">
+        {{ typeErrorMessage }}
+      </p>
 
       <label for="age">Age</label>
-      <input type="number" id="age" name="age" placeholder="Age" formControlName="age" />
+      <input
+        [class.input-error]="isAgeInvalid"
+        type="number"
+        id="age"
+        name="age"
+        placeholder="Age"
+        formControlName="age"
+      />
+      <p class="error" *ngIf="isAgeInvalid">
+        {{ ageErrorMessage }}
+      </p>
 
       <label for="location">Location</label>
-      <input type="text" id="location" name="location" placeholder="Location" formControlName="location" />
+      <input
+        [class.input-error]="isLocationInvalid"
+        type="text"
+        id="location"
+        name="location"
+        placeholder="Location"
+        formControlName="location"
+      />
+      <p class="error" *ngIf="isLocationInvalid">
+        {{ locationErrorMessage }}
+      </p>
 
       <label for="imageUrl">Image URL</label>
-      <input type="text" id="imageUrl" name="imageUrl" placeholder="Image URL" formControlName="imageUrl" />
+      <input
+        [class.input-error]="isImageUrlInvalid"
+        type="text"
+        id="imageUrl"
+        name="imageUrl"
+        placeholder="Image URL"
+        formControlName="imageUrl"
+      />
+      <p class="error" *ngIf="isImageUrlInvalid">
+        {{ imageUrlErrorMessage }}
+      </p>
 
       <label for="description">Description</label>
-      <textarea id="description" name="description" placeholder="Description" formControlName="description" rows="4"></textarea>
+      <textarea
+        [class.input-error]="isDescriptionInvalid"
+        id="description"
+        name="description"
+        placeholder="Description"
+        formControlName="description"
+        rows="4"
+      ></textarea>
+      <p class="error" *ngIf="isDescriptionInvalid">
+        {{ descriptionErrorMessage }}
+      </p>
 
-      <div class="actions" style="margin-top: 1rem;">
+      <div class="actions">
         <button type="button" class="btn-primary outline" (click)="cancel()">Cancel</button>
-        <!-- ВИНАГИ активен; извиква директно onSubmit() -->
-        <button type="button" class="btn-primary" (click)="onSubmit()">Save (force)</button>
+        <!-- Активен, когато name/type са валидни -->
+        <button type="submit" class="btn-primary" [disabled]="loading || !canSubmit">
+  Save
+</button>
+
       </div>
     </form>
   </section>
