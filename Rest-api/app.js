@@ -1,23 +1,37 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
-const routes = require('./routes'); 
 const app = express();
 
-app.use(cors());
-app.use(bodyParser.json());
+// Същият CORS като index.js
+const allowlist = [
+  /^http:\/\/localhost:\d+$/,
+  /^http:\/\/127\.0\.0\.1:\d+$/
+];
+app.use(cors({
+  origin(origin, cb) {
+    if (!origin) return cb(null, true);
+    const ok = allowlist.some(rx => rx.test(origin));
+    cb(ok ? null : new Error(`Blocked by CORS: ${origin}`), ok);
+  },
+  credentials: true
+}));
 
-app.use('/api/animals', routes.animalsRouter);
-app.use('/api/users', routes.usersRouter);
-app.use('/api/adoptionRequests', routes.adoptionRequestsRouter);
-app.use('/api/auth', routes.authRouter);
-app.use('/api/favorites', routes.favoritesRouter);
-app.use('/api/shelters', routes.sheltersRouter);
-app.use('/api/reviews', routes.reviewsRouter);
-app.use('/api/matches', routes.matchesRouter);
+app.use(express.json());
+app.use(cookieParser());
+
+if (process.env.DEBUG_AUTH === '1') {
+  app.use((req, _res, next) => {
+    console.log('[CORS]', req.headers.origin, '| cookies:', Object.keys(req.cookies || {}));
+    next();
+  });
+}
+
+app.use(require('./middleware/attachUser')); // не вреди; auth() е на рутовете
+
+const api = require('./router'); // <-- има го в Rest-api/router
+app.use('/api', api);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`API listening on http://localhost:${PORT}`));

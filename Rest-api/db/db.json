@@ -75,13 +75,25 @@
     {
       "id": "63cada97-b3b2-4516-805f-91c603d79987",
       "name": "Dory",
-      "age": 3,
+      "age": 2,
       "type": "Turtle",
       "description": "This little turtle is looking for a lovely owner.",
       "imageUrl": "https://wallpapercave.com/wp/wp314971.jpg",
       "location": "Sofia",
       "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
       "likes": 1,
+      "adopted": false
+    },
+    {
+      "id": "aa7963df-7f7c-4541-b063-6d7c74bfe778",
+      "name": "cc",
+      "age": 3,
+      "type": "Guinea pig",
+      "description": "kkkk",
+      "imageUrl": "cc",
+      "location": "cc",
+      "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
+      "likes": 0,
       "adopted": false
     }
   ],

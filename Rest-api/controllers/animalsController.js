@@ -50,11 +50,27 @@ exports.createAnimal = (req, res) => {
 };
 
 exports.updateAnimal = (req, res) => {
+  if (process.env.DEBUG_AUTH === '1') {
+    console.log('[UPDATE ANIMAL] user:', req.user);
+    console.log('[UPDATE ANIMAL] params.id:', req.params.id);
+    console.log('[UPDATE ANIMAL] cookies:', req.cookies);
+  }
+
   if (!req.user) return res.status(401).json({ message: 'Not authenticated' });
 
   const db = readDb();
   const animal = db.animals.find(a => a.id === req.params.id);
   if (!animal) return res.status(404).json({ message: 'Animal not found' });
+
+  if (process.env.DEBUG_AUTH === '1') {
+    console.log('[UPDATE ANIMAL] check =>', {
+      role: req.user?.role,
+      userId: String(req.user?.id),
+      owner: String(animal.addedByUserId)
+    });
+  }
+
+  // Самата проверка за права
   if (req.user.role !== 'Shelter' || String(animal.addedByUserId) !== String(req.user.id)) {
     return res.status(403).json({ message: 'Not allowed' });
   }
@@ -71,6 +87,8 @@ exports.updateAnimal = (req, res) => {
   saveDb(db);
   res.json(animal);
 };
+
+
 
 exports.deleteAnimal = (req, res) => {
   if (!req.user) return res.status(401).json({ message: 'Not authenticated' });
