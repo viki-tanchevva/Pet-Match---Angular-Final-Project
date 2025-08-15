@@ -16,15 +16,23 @@
         {{ nameErrorMessage }}
       </p>
 
-      <label for="type">Type</label>
-      <input
-        [class.input-error]="isTypeInvalid"
-        type="text"
+     <label for="type">Type</label>
+      <select
         id="type"
         name="type"
-        placeholder="Type"
         formControlName="type"
-      />
+        [class.input-error]="isTypeInvalid"
+      >
+        <option value="">-- Select --</option>
+        <option value="Dog">Dog</option>
+        <option value="Cat">Cat</option>
+        <option value="Rabbit">Rabbit</option>
+        <option value="Guinea pig">Guinea Pig</option>
+        <option value="Hamster">Hamster</option>
+        <option value="Bird">Bird</option>
+        <option value="Turtle">Turtle</option>
+        <option value="Other">Other</option>
+      </select>
       <p class="error" *ngIf="isTypeInvalid">
         {{ typeErrorMessage }}
       </p>
@@ -83,7 +91,6 @@
 
       <div class="actions">
         <button type="button" class="btn-primary outline" (click)="cancel()">Cancel</button>
-        <!-- Активен, когато name/type са валидни -->
         <button type="submit" class="btn-primary" [disabled]="loading || !canSubmit">
   Save
 </button>

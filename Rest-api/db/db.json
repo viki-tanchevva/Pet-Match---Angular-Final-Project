@@ -27,7 +27,7 @@
     {
       "id": "19bf21e6-316c-4070-963d-b93b5df02532",
       "name": "Browny",
-      "age": 4,
+      "age": 3,
       "type": "Dog",
       "description": "An obedient and playful dog is waiting for its owner.",
       "imageUrl": "https://i.pinimg.com/736x/64/98/ab/6498abf78cdccb1aa32ae49a247c1cfd.jpg",
@@ -39,7 +39,7 @@
     {
       "id": "489e7617-347c-4825-9a2d-badac0bcd629",
       "name": "Stewart",
-      "age": 1,
+      "age": 2,
       "type": "Guinea pig",
       "description": "A gentle guinea pig looking for a loving home. Calm, curious, and loves snacks!",
       "imageUrl": "https://th.bing.com/th/id/R.a511c07d7d6c29c38f6c0bf06360be59?rik=yONhrAZdaFSJJw&pid=ImgRaw&r=0",
@@ -63,7 +63,7 @@
     {
       "id": "f1c28f2c-efed-4184-8d6b-4f58bde5adb4",
       "name": "Bunny",
-      "age": 4,
+      "age": 2,
       "type": "Rabbit",
       "description": "cute bunny",
       "imageUrl": "https://th.bing.com/th/id/R.6bab0eefffa5cb631ed283b1a693481c?rik=TxuPzb6Be%2fZg3w&riu=http%3a%2f%2fupload.wikimedia.org%2fwikipedia%2fcommons%2fa%2fa5%2fEuropean_Rabbit%2c_Lake_District%2c_UK_-_August_2011.jpg&ehk=VNNfDXh0lxQ8HZAy0zKRwJozwm9h2JipQ3SgGdMgcqk%3d&risl=&pid=ImgRaw&r=0",
@@ -85,27 +85,27 @@
       "adopted": true
     },
     {
-      "id": "9ea079b2-bc7a-4c2a-877b-8d9ffeb7f702",
-      "name": "last try",
-      "age": 1,
-      "type": "Guinea pig",
-      "description": "kiolk",
-      "imageUrl": "https://th.bing.com/th/id/R.59b8d0289f4bf50d203c013009ac9181?rik=QeOl6XUZXDdDoA&riu=http%3a%2f%2fwww.letstryfoods.com%2fcdn%2fshop%2fproducts%2f849a8a_996b4060626a40f2ac4374b20b269753_mv2_6f359960-d134-4d39-8e71-74a94865205e.png%3fv%3d1679292681&ehk=YacJdo1ZdJRZHW9xYISuvDltAHcpkeOfy5FoeafIzMo%3d&risl=&pid=ImgRaw&r=0",
-      "location": "Gotse Delchev",
-      "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
-      "likes": 1,
-      "adopted": false
-    },
-    {
-      "id": "2e025479-e5e7-4244-8d18-a9510087f7b4",
+      "id": "3fd32469-8eb1-4361-859b-68fe15649908",
       "name": "hyujk",
       "age": 2,
-      "type": "Rabbit",
-      "description": "ggg",
+      "type": "Hamster",
+      "description": "kiollk",
       "imageUrl": "ttt",
       "location": "ggt",
-      "addedByUserId": "c5b876a6-c5f1-48b0-af3a-bf7e3bd0e44e",
-      "likes": 2,
+      "addedByUserId": "573d5605-6c7a-4b1e-b401-d793b5e76479",
+      "likes": 1,
+      "adopted": true
+    },
+    {
+      "id": "4793bb21-c9f0-40cd-a8a7-5a5179b13394",
+      "name": "Lia",
+      "age": 1,
+      "type": "Cat",
+      "description": "This cute cat wants a new home.",
+      "imageUrl": "https://th.bing.com/th/id/R.e38767b2d4005b865e1854c265e9ab7e?rik=26FggQ9EhPrG7Q&riu=http%3a%2f%2fwww.baltana.com%2ffiles%2fwallpapers-2%2fCute-Cat-Images-07756.jpg&ehk=BwZvi%2fA6o4aHac3M%2f%2bTD36S9IrJ6kmWhXYOsPzuV%2bzc%3d&risl=&pid=ImgRaw&r=0",
+      "location": "Sofia",
+      "addedByUserId": "3820daf5-358c-4e7b-9863-361cb0f17d52",
+      "likes": 1,
       "adopted": false
     }
   ],
@@ -137,16 +137,15 @@
         "63cada97-b3b2-4516-805f-91c603d79987",
         "39f1aceb-df79-40c5-8b5f-8666ffa90651",
         "19bf21e6-316c-4070-963d-b93b5df02532",
-        "9ea079b2-bc7a-4c2a-877b-8d9ffeb7f702",
         "e72a12a3-f65e-4ca0-a680-5692fead68cc",
-        "2e025479-e5e7-4244-8d18-a9510087f7b4"
+        "4793bb21-c9f0-40cd-a8a7-5a5179b13394"
       ]
     },
     {
       "id": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
       "username": "shelter",
       "email": "shelter@abv.bg",
-      "passwordHash": "$2b$10$7U9DcU8ZoA4p.9ya0kkLuOAE45obuUI2NMk1jJYf42hlMEWk48zAy",
+      "passwordHash": "$2b$10$AS9IPfqri3oUXje.islq5OszfE.aPIP5ienf84LF9e9IykzKhIJ/q",
       "role": "Shelter",
       "likedAnimals": []
     },
@@ -157,85 +156,6 @@
       "passwordHash": "$2b$10$vrFGCeK/aR92FNqcWT8a0eDFhlA.Bk/PLzStBdwvVxbH8mKMM05aO",
       "role": "Shelter",
       "likedAnimals": []
-    },
-    {
-      "id": "96550584-f704-4d18-9781-28729ce6b25a",
-      "username": "dani-tanchev",
-      "email": "dani@abv.bg",
-      "passwordHash": "$2b$10$tZzvqBLoIpt1y20/M5sU.OMguKSIxWNMwbw2jzJ95Xs8sbAgmTxKq",
-      "role": "User",
-      "likedAnimals": []
-    },
-    {
-      "id": "b8dba779-a360-4156-9ae9-534a08efe780",
-      "username": "testt",
-      "email": "test@abv.bg",
-      "passwordHash": "$2b$10$GJ1YjuahrJtHbxlsDHERpejshm78Va8enzGVsg0B97iwzc5BTbqfu",
-      "role": "User",
-      "likedAnimals": []
-    },
-    {
-      "id": "444872d7-b15d-4225-9756-a49815fb1efd",
-      "username": "12345",
-      "email": "peter@abv.bg",
-      "passwordHash": "$2b$10$SE7i6XI38OwmAFvivEeUzeNrdCKfFRf/iD0IRzV5lmGDKM..L9g9O",
-      "role": "User",
-      "likedAnimals": []
-    },
-    {
-      "id": "fd87eb7f-45af-46cf-9023-60d9daea7def",
-      "username": "ddddd",
-      "email": "ddddd@gmail.com",
-      "passwordHash": "$2b$10$wORf6zbaisS6CO3KqGA8jOkb0m/pqvQ/eXxgCNbr78MFbvd8njwIm",
-      "role": "User",
-      "likedAnimals": [
-        "39f1aceb-df79-40c5-8b5f-8666ffa90651"
-      ]
-    },
-    {
-      "id": "f2c7e394-5986-401e-bd61-d2c6ac5852ee",
-      "username": "sssss",
-      "email": "ssss@abv.bg",
-      "passwordHash": "$2b$10$DDSrsIjBOfJV4S6aGF6Mru410X1X2uNVKRG8wAECndOMMQmHMUWoi",
-      "role": "Shelter",
-      "likedAnimals": []
-    },
-    {
-      "id": "3471ff9c-a316-490f-9dad-2285b3cac0ba",
-      "username": "hhhhg",
-      "email": "hhhh@gmail.com",
-      "passwordHash": "$2b$10$4FZ3F6tyFZ.xuMyHmLdb5eKlHNQ15HS34FeG0d4HagpdB14K5zqoa",
-      "role": "Shelter",
-      "likedAnimals": []
-    },
-    {
-      "id": "8dde9a4d-a46e-413f-a72f-8a241dfd2c21",
-      "username": "hhjk;''",
-      "email": "vikiii@abv.bg",
-      "passwordHash": "$2b$10$SmX7gh5UZ3QTabc5fiIGLOn7l770lYmEChkvnEY7KoxNI3Xp3JFdS",
-      "role": "User",
-      "likedAnimals": [
-        "4993e90a-8c00-4b96-996a-534aeba3b2ee",
-        "19bf21e6-316c-4070-963d-b93b5df02532"
-      ]
-    },
-    {
-      "id": "c5b876a6-c5f1-48b0-af3a-bf7e3bd0e44e",
-      "username": "hyujii",
-      "email": "hgytu@abv.bg",
-      "passwordHash": "$2b$10$LUTT24t76uZbF0SkN8jtcez6abCcsj9ajEqOqAkQJYij15lMw/EGC",
-      "role": "Shelter",
-      "likedAnimals": []
-    },
-    {
-      "id": "e9e3edd8-c2fc-4132-b714-6af7a2a7ab57",
-      "username": "yuuui",
-      "email": "itt@abv.bg",
-      "passwordHash": "$2b$10$Zm0r8XOAqHQFv.bwiPB.BOdzuyF2Cfy4ZA2I9mw6cEcMHXupr3Fu2",
-      "role": "User",
-      "likedAnimals": [
-        "2e025479-e5e7-4244-8d18-a9510087f7b4"
-      ]
     }
   ],
   "adoptionRequests": [
@@ -308,6 +228,26 @@
       "status": "Declined",
       "createdAt": "2025-08-15T22:30:48.631Z",
       "updatedAt": "2025-08-15T22:31:45.121Z"
+    },
+    {
+      "id": "48313eff-2a92-402a-9994-94680c95d870",
+      "animalId": "3fd32469-8eb1-4361-859b-68fe15649908",
+      "userId": "fa808d29-1792-45c3-83db-110323a9ede3",
+      "shelterId": "573d5605-6c7a-4b1e-b401-d793b5e76479",
+      "message": "Name: ll\nPhone: 7766\nlll",
+      "status": "Approved",
+      "createdAt": "2025-08-15T22:51:07.498Z",
+      "updatedAt": "2025-08-15T22:51:57.512Z"
+    },
+    {
+      "id": "04203e23-3744-436e-853e-545dabe92297",
+      "animalId": "4793bb21-c9f0-40cd-a8a7-5a5179b13394",
+      "userId": "8894ef72-eb89-462e-b94a-d7070382e5f6",
+      "shelterId": "3820daf5-358c-4e7b-9863-361cb0f17d52",
+      "message": "Name: Viki\nPhone: 1234\nI wani itt",
+      "status": "Pending",
+      "createdAt": "2025-08-15T22:59:33.904Z",
+      "updatedAt": "2025-08-15T22:59:33.904Z"
     }
   ]
 }

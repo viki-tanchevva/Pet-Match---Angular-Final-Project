@@ -5,15 +5,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AnimalsService, UpdateAnimalDto } from '../../../core/services/animal.service';
 import { Animal } from '../../../models';
 
-/** Валидатор: URL, но валидира само ако полето е dirty */
 const urlWhenDirty: ValidatorFn = (control: AbstractControl) => {
   const v = control.value;
-  // ако не е пипано или празно — не блокира формата
   if (!control.dirty || !v) return null;
   try { new URL(v); return null; } catch { return { url: true }; }
 };
 
-/** Валидатор: мин. дължина, но само ако полето е dirty */
 const minLenWhenDirty = (n: number): ValidatorFn => {
   return (control: AbstractControl) => {
     const v = control.value ?? '';
@@ -39,15 +36,10 @@ export class AnimalEditComponent implements OnInit {
   animalId = '';
   loading = true;
 
-  /** Забележи:
-   * - name/type са задължителни (валидни винаги, не само dirty)
-   * - location/description имат minLength, НО само когато са dirty
-   * - imageUrl има URL валидатор, НО само когато е dirty
-   */
   editAnimalForm = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
     type: ['', [Validators.required]],
-    age: [null as number | null], // опционално
+    age: [null as number | null], 
     location: ['', [minLenWhenDirty(2)]],
     imageUrl: ['', [urlWhenDirty]],
     description: ['', [minLenWhenDirty(5)]],
@@ -70,7 +62,6 @@ export class AnimalEditComponent implements OnInit {
           description: a.description || '',
           adopted: !!a.adopted,
         });
-        // важно: изчистваме „dirty“ след зареждане, за да валидираме само бъдещи промени
         this.editAnimalForm.markAsPristine();
         this.loading = false;
       },
@@ -81,19 +72,15 @@ export class AnimalEditComponent implements OnInit {
     });
   }
 
-  /** Може ли да се събмитне сега? */
   get canSubmit(): boolean {
     const f = this.editAnimalForm;
     if (!f) return false;
 
-    // 1) задължителните полета (валидни винаги)
     const requiredOk = this.nameCtrl.valid && this.typeCtrl.valid;
     if (!requiredOk) return false;
 
-    // 2) има поне една промяна
     if (!f.dirty) return false;
 
-    // 3) всички D I R T Y контроли са валидни
     const controls = f.controls;
     for (const key of Object.keys(controls)) {
       const c = controls[key as keyof typeof controls]!;
@@ -110,7 +97,6 @@ export class AnimalEditComponent implements OnInit {
       return;
     }
 
-    // изпращаме само променените (dirty) полета → частичен update
     const c = this.editAnimalForm.controls;
     const payload: UpdateAnimalDto = {};
     if (c.name.dirty) payload.name = String(c.name.value || '').trim();
@@ -135,7 +121,6 @@ export class AnimalEditComponent implements OnInit {
     this.router.navigate(['/animals', this.animalId]);
   }
 
-  // ---- Getters за template ----
   get nameCtrl() { return this.editAnimalForm.get('name')!; }
   get typeCtrl() { return this.editAnimalForm.get('type')!; }
   get ageCtrl() { return this.editAnimalForm.get('age')!; }
@@ -145,7 +130,7 @@ export class AnimalEditComponent implements OnInit {
 
   get isNameInvalid() { return this.nameCtrl.invalid && (this.nameCtrl.touched || this.nameCtrl.dirty); }
   get isTypeInvalid() { return this.typeCtrl.invalid && (this.typeCtrl.touched || this.typeCtrl.dirty); }
-  get isAgeInvalid() { return this.ageCtrl.invalid && (this.ageCtrl.touched || this.ageCtrl.dirty); }           // без валидатори → false
+  get isAgeInvalid() { return this.ageCtrl.invalid && (this.ageCtrl.touched || this.ageCtrl.dirty); }           
   get isLocationInvalid() { return this.locationCtrl.invalid && (this.locationCtrl.touched || this.locationCtrl.dirty); }
   get isImageUrlInvalid() { return this.imageUrlCtrl.invalid && (this.imageUrlCtrl.touched || this.imageUrlCtrl.dirty); }
   get isDescriptionInvalid() { return this.descriptionCtrl.invalid && (this.descriptionCtrl.touched || this.descriptionCtrl.dirty); }

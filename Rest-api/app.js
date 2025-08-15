@@ -4,7 +4,6 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 
-// Същият CORS като index.js
 const allowlist = [
   /^http:\/\/localhost:\d+$/,
   /^http:\/\/127\.0\.0\.1:\d+$/

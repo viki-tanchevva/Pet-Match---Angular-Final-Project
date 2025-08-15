@@ -27,16 +27,20 @@ export class AnimalDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
+
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) return;
+
     this.loadAnimal(id);
-    this.authService.profile().subscribe({
-      next: u => {
-        this.user.set(u);
-        this.updateFavoriteFromData();
-      },
-      error: () => {}
-    });
+
+    if (this.authService.isAuthenticated()) {
+      this.authService.profile().subscribe({
+        next: (u) => {
+          this.user.set(u);
+          this.updateFavoriteFromData();
+        }
+      });
+    }
   }
 
   private loadAnimal(id: string): void {
@@ -157,7 +161,7 @@ export class AnimalDetailsComponent implements OnInit {
   onDelete(): void {
     const a = this.animal();
     if (!a) return;
-    if (!confirm('Сигурни ли сте, че искате да изтриете това животно?')) return;
+    if (!confirm('Are you sure you want to delete this animal?')) return;
     const id = a.id || a._id;
     this.http.delete(`http://localhost:3000/api/animals/${id}`, { withCredentials: true })
       .subscribe(() => this.router.navigate(['/animals']));

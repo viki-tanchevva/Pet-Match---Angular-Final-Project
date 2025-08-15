@@ -36,12 +36,9 @@ export class AnimalsService {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
-  // Create
   createAnimal(animal: Partial<Animal> | CreateAnimalDto): Observable<Animal> {
     return this.httpClient.post<Animal>(`${this.apiUrl}`, animal, { withCredentials: true });
   }
-
-  // Read - list with optional filters
   getAllAnimals(params?: { city?: string; species?: string; q?: string }): Observable<Animal[]> {
     let httpParams = new HttpParams();
     if (params) {
@@ -51,28 +48,22 @@ export class AnimalsService {
     }
     return this.httpClient.get<Animal[]>(`${this.apiUrl}`, { params: httpParams, withCredentials: true });
   }
-
-  // Alias за съвместимост
   getAll(params?: { city?: string; species?: string; q?: string }): Observable<Animal[]> {
     return this.getAllAnimals(params);
   }
 
-  // Read - one
   getAnimalById(id: string): Observable<Animal> {
     return this.httpClient.get<Animal>(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
 
-  // Update
   updateAnimal(id: string, animal: Partial<Animal> | UpdateAnimalDto): Observable<Animal> {
     return this.httpClient.put<Animal>(`${this.apiUrl}/${id}`, animal, { withCredentials: true });
   }
 
-  // Delete
   deleteAnimal(id: string): Observable<{ message?: string; animal?: Animal }> {
     return this.httpClient.delete<{ message?: string; animal?: Animal }>(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
 
-  // Like / favorite
   likeAnimal(id: string): Observable<{ message?: string; likes: number; liked?: boolean; likedAnimals?: string[] }> {
     return this.httpClient.post<{ message?: string; likes: number; liked?: boolean; likedAnimals?: string[] }>(
       `${this.apiUrl}/${id}/like`,
@@ -81,7 +72,6 @@ export class AnimalsService {
     );
   }
 
-  // Съвместимост с компоненти, които викат toggleFavorite()
   toggleFavorite(id: string): Observable<{ likes: number; liked: boolean; likedAnimals?: string[] }> {
     return this.httpClient.post<{ likes: number; liked: boolean; likedAnimals?: string[] }>(
       `${this.apiUrl}/${id}/like`,
@@ -90,7 +80,6 @@ export class AnimalsService {
     );
   }
 
-  // Favorites / Mine
   getFavoriteAnimals(): Observable<Animal[]> {
     return this.httpClient.get<Animal[]>(`${this.apiUrl}/favorites`, { withCredentials: true });
   }
@@ -99,7 +88,6 @@ export class AnimalsService {
     return this.httpClient.get<Animal[]>(`${this.apiUrl}/mine`, { withCredentials: true });
   }
 
-  // Signals helpers
   loadAll(params?: { city?: string; species?: string; q?: string }): Observable<Animal[]> {
     return this.getAllAnimals(params).pipe(tap(list => this._animals.set(list)));
   }

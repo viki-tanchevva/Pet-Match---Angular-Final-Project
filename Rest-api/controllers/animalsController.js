@@ -70,7 +70,6 @@ exports.updateAnimal = (req, res) => {
     });
   }
 
-  // Самата проверка за права
   if (req.user.role !== 'Shelter' || String(animal.addedByUserId) !== String(req.user.id)) {
     return res.status(403).json({ message: 'Not allowed' });
   }
