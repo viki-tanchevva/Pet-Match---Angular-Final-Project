@@ -33,7 +33,7 @@
       "imageUrl": "https://i.pinimg.com/736x/64/98/ab/6498abf78cdccb1aa32ae49a247c1cfd.jpg",
       "location": "Bansko",
       "addedByUserId": "3820daf5-358c-4e7b-9863-361cb0f17d52",
-      "likes": 1,
+      "likes": 2,
       "adopted": false
     },
     {
@@ -85,15 +85,15 @@
       "adopted": false
     },
     {
-      "id": "39f1aceb-df79-40c5-8b5f-8666ffa90651",
+      "id": "9ea079b2-bc7a-4c2a-877b-8d9ffeb7f702",
       "name": "last try",
-      "age": 2,
-      "type": "Other",
-      "description": "last test before its resdy",
+      "age": 1,
+      "type": "Guinea pig",
+      "description": "kiolk",
       "imageUrl": "https://th.bing.com/th/id/R.59b8d0289f4bf50d203c013009ac9181?rik=QeOl6XUZXDdDoA&riu=http%3a%2f%2fwww.letstryfoods.com%2fcdn%2fshop%2fproducts%2f849a8a_996b4060626a40f2ac4374b20b269753_mv2_6f359960-d134-4d39-8e71-74a94865205e.png%3fv%3d1679292681&ehk=YacJdo1ZdJRZHW9xYISuvDltAHcpkeOfy5FoeafIzMo%3d&risl=&pid=ImgRaw&r=0",
       "location": "Gotse Delchev",
       "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
-      "likes": 1,
+      "likes": 0,
       "adopted": false
     }
   ],
@@ -158,6 +158,51 @@
       "passwordHash": "$2b$10$GJ1YjuahrJtHbxlsDHERpejshm78Va8enzGVsg0B97iwzc5BTbqfu",
       "role": "User",
       "likedAnimals": []
+    },
+    {
+      "id": "444872d7-b15d-4225-9756-a49815fb1efd",
+      "username": "12345",
+      "email": "peter@abv.bg",
+      "passwordHash": "$2b$10$SE7i6XI38OwmAFvivEeUzeNrdCKfFRf/iD0IRzV5lmGDKM..L9g9O",
+      "role": "User",
+      "likedAnimals": []
+    },
+    {
+      "id": "fd87eb7f-45af-46cf-9023-60d9daea7def",
+      "username": "ddddd",
+      "email": "ddddd@gmail.com",
+      "passwordHash": "$2b$10$wORf6zbaisS6CO3KqGA8jOkb0m/pqvQ/eXxgCNbr78MFbvd8njwIm",
+      "role": "User",
+      "likedAnimals": [
+        "39f1aceb-df79-40c5-8b5f-8666ffa90651"
+      ]
+    },
+    {
+      "id": "f2c7e394-5986-401e-bd61-d2c6ac5852ee",
+      "username": "sssss",
+      "email": "ssss@abv.bg",
+      "passwordHash": "$2b$10$DDSrsIjBOfJV4S6aGF6Mru410X1X2uNVKRG8wAECndOMMQmHMUWoi",
+      "role": "Shelter",
+      "likedAnimals": []
+    },
+    {
+      "id": "3471ff9c-a316-490f-9dad-2285b3cac0ba",
+      "username": "hhhhg",
+      "email": "hhhh@gmail.com",
+      "passwordHash": "$2b$10$4FZ3F6tyFZ.xuMyHmLdb5eKlHNQ15HS34FeG0d4HagpdB14K5zqoa",
+      "role": "Shelter",
+      "likedAnimals": []
+    },
+    {
+      "id": "8dde9a4d-a46e-413f-a72f-8a241dfd2c21",
+      "username": "hhjk;''",
+      "email": "vikiii@abv.bg",
+      "passwordHash": "$2b$10$SmX7gh5UZ3QTabc5fiIGLOn7l770lYmEChkvnEY7KoxNI3Xp3JFdS",
+      "role": "User",
+      "likedAnimals": [
+        "4993e90a-8c00-4b96-996a-534aeba3b2ee",
+        "19bf21e6-316c-4070-963d-b93b5df02532"
+      ]
     }
   ],
   "adoptionRequests": [
@@ -200,6 +245,26 @@
       "status": "Pending",
       "createdAt": "2025-08-14T22:43:21.628Z",
       "updatedAt": "2025-08-14T22:43:21.628Z"
+    },
+    {
+      "id": "1efc6b1f-3f05-4245-b67f-9cfeb06511e7",
+      "animalId": "39f1aceb-df79-40c5-8b5f-8666ffa90651",
+      "userId": "8894ef72-eb89-462e-b94a-d7070382e5f6",
+      "shelterId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
+      "message": "Name: fff\nPhone: fff\nfff",
+      "status": "Pending",
+      "createdAt": "2025-08-15T22:03:22.441Z",
+      "updatedAt": "2025-08-15T22:03:22.441Z"
+    },
+    {
+      "id": "31ecb0c8-b4c5-4559-8f69-5742b1136459",
+      "animalId": "4993e90a-8c00-4b96-996a-534aeba3b2ee",
+      "userId": "8dde9a4d-a46e-413f-a72f-8a241dfd2c21",
+      "shelterId": "3471ff9c-a316-490f-9dad-2285b3cac0ba",
+      "message": "Name: kkk\nPhone: k787\nhhhh",
+      "status": "Pending",
+      "createdAt": "2025-08-15T22:08:21.450Z",
+      "updatedAt": "2025-08-15T22:08:21.450Z"
     }
   ]
 }

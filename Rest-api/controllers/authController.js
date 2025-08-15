@@ -6,45 +6,76 @@ const { authCookieName } = require('../app-config');
 
 const dbFilePath = path.join(__dirname, '../db/db.json');
 
-function readDb() { return JSON.parse(fs.readFileSync(dbFilePath, 'utf-8')); }
-function saveDb(db) { fs.writeFileSync(dbFilePath, JSON.stringify(db, null, 2)); }
+function readDb() {
+  return JSON.parse(fs.readFileSync(dbFilePath, 'utf-8'));
+}
+function saveDb(db) {
+  fs.writeFileSync(dbFilePath, JSON.stringify(db, null, 2));
+}
+function normalizeRole(role) {
+  const r = String(role || '').toLowerCase();
+  if (r === 'shelter') return 'Shelter';
+  return 'User';
+}
 
 async function register(req, res) {
-  const { username, email, password, role } = req.body || {};
-  if (!username || !email || !password) return res.status(400).json({ message: 'Missing required fields' });
+  try {
+    const { username, email, password, rePassword, role } = req.body || {};
+    if (!username || !email || !password) return res.status(400).json({ message: 'Missing required fields' });
+    if (rePassword !== undefined && rePassword !== password) return res.status(400).json({ message: 'Passwords do not match' });
 
-  const db = readDb();
-  if (db.users.some(u => u.email === email)) return res.status(409).json({ message: 'Email already exists' });
+    const db = readDb();
+    const exists = db.users.find(u => u.email.toLowerCase() === String(email).toLowerCase());
+    if (exists) return res.status(409).json({ message: 'Email already in use' });
 
-  const id = require('uuid').v4();
-  const passwordHash = await bcrypt.hash(password, 10);
-  const user = { id, username, email, passwordHash, role: role || 'User', likedAnimals: [] };
-  db.users.push(user); saveDb(db);
-  res.status(201).json({ _id: id, username, email, role: user.role });
+    const passwordHash = await bcrypt.hash(password, 10);
+    const user = {
+      id: require('crypto').randomUUID(),
+      username,
+      email,
+      passwordHash,
+      role: normalizeRole(role),
+      likedAnimals: []
+    };
+    db.users.push(user);
+    saveDb(db);
+
+    const token = createToken({ id: user.id, role: user.role, email: user.email, username: user.username });
+    res.cookie(authCookieName, token, { httpOnly: true, sameSite: 'lax', secure: false });
+    return res.json({ _id: user.id, username: user.username, email: user.email, role: user.role });
+  } catch (_err) {
+    return res.status(500).json({ message: 'Registration failed' });
+  }
 }
 
 async function login(req, res) {
-  const { email, password } = req.body || {};
-  const db = readDb();
-  const user = db.users.find(u => u.email === email);
-  if (!user) return res.status(401).json({ message: 'Invalid credentials' });
+  try {
+    const { email, password } = req.body || {};
+    if (!email || !password) return res.status(400).json({ message: 'Missing credentials' });
 
-  const ok = await bcrypt.compare(password, user.passwordHash);
-  if (!ok) return res.status(401).json({ message: 'Invalid credentials' });
+    const db = readDb();
+    const user = db.users.find(u => u.email.toLowerCase() === String(email).toLowerCase());
+    if (!user) return res.status(401).json({ message: 'Invalid credentials' });
 
-  const token = createToken({ id: user.id, role: user.role, email: user.email, username: user.username });
-  res.cookie(authCookieName, token, { httpOnly: true, sameSite: 'lax', secure: false });
-  res.json({ _id: user.id, username: user.username, email: user.email, role: user.role });
+    const ok = await bcrypt.compare(password, user.passwordHash);
+    if (!ok) return res.status(401).json({ message: 'Invalid credentials' });
+
+    const token = createToken({ id: user.id, role: user.role, email: user.email, username: user.username });
+    res.cookie(authCookieName, token, { httpOnly: true, sameSite: 'lax', secure: false });
+    return res.json({ _id: user.id, username: user.username, email: user.email, role: user.role });
+  } catch (_err) {
+    return res.status(500).json({ message: 'Login failed' });
+  }
 }
 
 function profile(req, res) {
   if (!req.user) return res.status(401).json({ message: 'Not authenticated' });
-  res.json({ _id: req.user._id, username: req.user.username, email: req.user.email, role: req.user.role });
+  return res.json({ _id: req.user._id, username: req.user.username, email: req.user.email, role: req.user.role });
 }
 
 function logout(req, res) {
   res.clearCookie(authCookieName, { sameSite: 'lax', secure: false });
-  res.json({ message: 'Logged out' });
+  return res.json({ message: 'Logged out' });
 }
 
 module.exports = { register, login, logout, profile };

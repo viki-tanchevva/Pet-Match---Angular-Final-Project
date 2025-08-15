@@ -1,136 +1,104 @@
-import { Component, OnInit, signal, inject, PLATFORM_ID } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Component, OnInit, Inject, PLATFORM_ID, inject, signal } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Animal } from '../../../models';
-import { AnimalsService } from '../../../core/services/animal.service';
-import { AdoptionService } from '../../../core/services/adoption.service';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../../core/services/auth.service';
 import { AgePipe } from '../../../shared/pipes/age.pipe';
 import { TruncatePipe } from '../../../shared/pipes/truncate.pipe';
 
 @Component({
   selector: 'app-animal-details',
   standalone: true,
-  imports: [RouterLink, CommonModule, AgePipe, TruncatePipe],
+  imports: [CommonModule, RouterLink, AgePipe, TruncatePipe],
   templateUrl: './animal-details.component.html',
   styleUrls: ['./animal-details.component.css']
 })
 export class AnimalDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private animalsService = inject(AnimalsService);
-  private adoptionService = inject(AdoptionService);
-  private platformId = inject(PLATFORM_ID);
+  private http = inject(HttpClient);
+  public authService = inject(AuthService);
 
-  animal = signal<Animal | null>(null);
-  favorited = signal<boolean>(false);
-  alreadyApplied = false;
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-  authService = {
-    isAuthenticated: (): boolean => !!this.readUser(),
-    userRole: (): string => {
-      const u = this.readUser();
-      let role: any =
-        u?.role ??
-        (Array.isArray(u?.roles) ? u.roles[0] : undefined) ??
-        (u?.isShelter ? 'Shelter' : u?.isUser ? 'User' : undefined) ??
-        u?.userType ??
-        u?.type ??
-        '';
-      role = String(role).trim().toLowerCase();
-      if (role === 'shelter') return 'Shelter';
-      if (role === 'user') return 'User';
-      return role ? role.charAt(0).toUpperCase() + role.slice(1) : '';
-    }
-  };
+  animal = signal<any | null>(null);
+  user = signal<any | null>(null);
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) return;
-    this.animalsService.loadById(id).subscribe({
-      next: a => {
-        this.animal.set(a);
-        const anyA: any = a as any;
-        const initFav = anyA.isFavorite ?? anyA.favourite ?? anyA.likedByCurrentUser ?? false;
-        this.favorited.set(!!initFav);
-      }
+    this.loadAnimal(id);
+    this.authService.profile().subscribe({
+      next: u => this.user.set(u),
+      error: () => {}
     });
   }
 
-  isFavorited(): boolean {
-    return this.favorited();
+  private loadAnimal(id: string): void {
+    this.http.get<any>(`http://localhost:3000/api/animals/${id}`, { withCredentials: true })
+      .subscribe(a => this.animal.set(a));
+  }
+
+  private ownerId(a: any): string {
+    return String(a?.addedByUserId ?? a?._ownerId ?? a?.ownerId ?? a?.createdById ?? '');
+  }
+
+  private currentUserId(): string {
+    const u = this.user();
+    return String(u?._id ?? '');
   }
 
   isCreator(): boolean {
-    const u = this.readUser();
-    if (!u) return false;
     const a = this.animal();
     if (!a) return false;
-    const userId = this.readUserId(u);
-    const ownerCandidates = ['addedByUserId', 'ownerId', 'userId', 'authorId', 'shelterId', 'createdBy', 'addedBy'];
-    let ownerVal = '';
-    for (const k of ownerCandidates) {
-      const v = (a as any)?.[k];
-      if (v !== undefined && v !== null && String(v).length > 0) {
-        ownerVal = String(v);
-        break;
-      }
-    }
-    return userId.length > 0 && ownerVal.length > 0 && userId === ownerVal;
+    return this.ownerId(a) === this.currentUserId();
+  }
+
+  isFavorited(): boolean {
+    const a = this.animal();
+    if (!a) return false;
+    const id = this.currentUserId();
+    const lists = [
+      a?.likedBy,
+      a?.favouritedBy,
+      a?.favorites,
+      a?.favourites,
+      a?.likers,
+      a?.likesBy
+    ].filter(Boolean) as any[];
+    return lists.some(arr => Array.isArray(arr) && arr.map((x: any) => String(x)).includes(String(id)));
   }
 
   onToggleFavorite(): void {
     const a = this.animal();
     if (!a) return;
-    this.animalsService.toggleFavorite(a.id).subscribe({
-      next: (res: any) => {
-        if (typeof res?.favorited === 'boolean') this.favorited.set(res.favorited);
-        else this.favorited.set(!this.favorited());
-        if (typeof res?.likes === 'number') this.animal.set({ ...a, likes: res.likes });
-      },
-      error: () => {}
-    });
-  }
-
-  onEdit(): void {
-    const a = this.animal();
-    if (!a) return;
-    this.router.navigate(['/animals/edit', a.id]);
-  }
-
-  onDelete(): void {
-    const a = this.animal();
-    if (!a) return;
-    const ok = confirm('Delete this animal?');
-    if (!ok) return;
-    this.animalsService.deleteAnimal(a.id).subscribe({
-      next: () => this.router.navigate(['/animals']),
-      error: () => alert('Delete failed. Please try again')
-    });
+    const id = a.id || a._id;
+    const action = this.isFavorited() ? 'unlike' : 'like';
+    this.http.post(`http://localhost:3000/api/animals/${id}/${action}`, {}, { withCredentials: true })
+      .subscribe(() => this.loadAnimal(String(id)));
   }
 
   onAdopt(): void {
     const a = this.animal();
     if (!a) return;
-    if (this.alreadyApplied) return;
-    this.router.navigate(['/adopt', a.id]);
+    const id = a.id || a._id;
+    this.router.navigate(['/adopt', id]);
   }
 
-  private readUser(): any {
-    try {
-      const keys = ['user', 'currentUser', 'auth', 'profile'];
-      for (const k of keys) {
-        const raw = localStorage.getItem(k);
-        if (raw) return JSON.parse(raw);
-      }
-      return null;
-    } catch {
-      return null;
-    }
+  onEdit(): void {
+    const a = this.animal();
+    if (!a) return;
+    const id = a.id || a._id;
+    this.router.navigate(['/animals', 'edit', id]);
   }
 
-  private readUserId(u: any): string {
-    const id = u?._id ?? u?.id ?? u?.userId ?? u?.uid ?? (typeof u?.user === 'object' ? u.user?._id || u.user?.id : undefined);
-    return String(id || '');
+  onDelete(): void {
+    const a = this.animal();
+    if (!a) return;
+    if (!confirm('Are you sure you want to delete this animal?')) return;
+    const id = a.id || a._id;
+    this.http.delete(`http://localhost:3000/api/animals/${id}`, { withCredentials: true })
+      .subscribe(() => this.router.navigate(['/animals']));
   }
 }
