@@ -5,6 +5,19 @@ import { throwError } from 'rxjs';
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((error: any) => {
+
+      // 🔕 ДОБАВЕНО: не показвай alert за очаквани 401 от profile/logout проверките
+      if (error instanceof HttpErrorResponse) {
+        const url = error.url ?? '';
+        if (
+          error.status === 401 &&
+          (/\/api\/auth\/profile$/.test(url) || /\/api\/auth\/logout$/.test(url))
+        ) {
+          return throwError(() => error);
+        }
+      }
+      // 🔕 КРАЙ НА ДОБАВКАТА
+
       let message = 'An error occurred';
       if (error instanceof HttpErrorResponse) {
         if (typeof error.error === 'string' && error.error.trim()) {
