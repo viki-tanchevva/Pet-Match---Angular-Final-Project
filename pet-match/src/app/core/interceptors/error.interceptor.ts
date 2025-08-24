@@ -6,7 +6,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((error: any) => {
 
-      // 🔕 ДОБАВЕНО: не показвай alert за очаквани 401 от profile/logout проверките
       if (error instanceof HttpErrorResponse) {
         const url = error.url ?? '';
         if (
@@ -16,7 +15,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           return throwError(() => error);
         }
       }
-      // 🔕 КРАЙ НА ДОБАВКАТА
 
       let message = 'An error occurred';
       if (error instanceof HttpErrorResponse) {

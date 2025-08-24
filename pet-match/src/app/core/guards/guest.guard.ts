@@ -7,12 +7,10 @@ export const guestGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
   const router = inject(Router);
 
-  // ако вече знаем, че е логнат → 404
   if (auth.isAuthenticated()) return router.parseUrl('/404');
 
-  // иначе опитай да ре-хидратираш от cookie-то
   return auth.profile().pipe(
-    map(() => router.parseUrl('/404')), // има валидна сесия → 404
-    catchError(() => of(true))          // няма сесия → пуска госта към /login
+    map(() => router.parseUrl('/404')), 
+    catchError(() => of(true))          
   );
 };
