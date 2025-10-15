@@ -119,6 +119,30 @@
       "addedByUserId": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
       "likes": 0,
       "adopted": true
+    },
+    {
+      "id": "2341c381-f83a-438a-b920-9f39cbf15d6e",
+      "name": "Sevi",
+      "age": 3,
+      "type": "Guinea pig",
+      "description": "hh",
+      "imageUrl": "https://tse3.mm.bing.net/th/id/OIP.oQfOrfV0Exmd0kdCmwYN0QHaDt?rs=1&pid=ImgDetMain&o=7&rm=3",
+      "location": "Gotse Delchev",
+      "addedByUserId": "a217752f-db0b-4f48-aaef-55bab02f7610",
+      "likes": 1,
+      "adopted": true
+    },
+    {
+      "id": "3341e965-25f5-41c4-ac53-ebac7297add3",
+      "name": "Dog",
+      "age": 2,
+      "type": "Dog",
+      "description": "hh",
+      "imageUrl": "https://tse3.mm.bing.net/th/id/OIP.oQfOrfV0Exmd0kdCmwYN0QHaDt?rs=1&pid=ImgDetMain&o=7&rm=3",
+      "location": "Sofia",
+      "addedByUserId": "7dabfa2d-7639-4f25-8b73-8edd903bceb0",
+      "likes": 0,
+      "adopted": true
     }
   ],
   "users": [
@@ -156,7 +180,7 @@
       "id": "91ba99b8-c168-4c0b-8bdb-2cb02cbc3ef6",
       "username": "shelter",
       "email": "shelter@abv.bg",
-      "passwordHash": "$2b$10$AS9IPfqri3oUXje.islq5OszfE.aPIP5ienf84LF9e9IykzKhIJ/q",
+      "passwordHash": "$2b$10$MGQSaUsWYvc6.etatpD6p.j0F7txyUGijdT55mOsRDXnfuL9p6aDK",
       "role": "Shelter",
       "likedAnimals": []
     },
@@ -166,6 +190,40 @@
       "email": "shelter1@abv.bg",
       "passwordHash": "$2b$10$vrFGCeK/aR92FNqcWT8a0eDFhlA.Bk/PLzStBdwvVxbH8mKMM05aO",
       "role": "Shelter",
+      "likedAnimals": []
+    },
+    {
+      "id": "a217752f-db0b-4f48-aaef-55bab02f7610",
+      "username": "shelterTest",
+      "email": "shelterTest@abv.bg",
+      "passwordHash": "$2b$10$bU7GwhOiceWWutiQ3rkqjOXzQJi7cHmucDRMQToo9s4pjrqhLuuKO",
+      "role": "Shelter",
+      "likedAnimals": []
+    },
+    {
+      "id": "7bc426bc-4010-40f5-a36e-989885977d3f",
+      "username": "userTest",
+      "email": "userTest@abv.bg",
+      "passwordHash": "$2b$10$Cn4bK5TUh1x2Tr3.rAKvx.ivMsK/eZ28LYy0etO5GlEMB9bdJp60O",
+      "role": "User",
+      "likedAnimals": [
+        "2341c381-f83a-438a-b920-9f39cbf15d6e"
+      ]
+    },
+    {
+      "id": "7dabfa2d-7639-4f25-8b73-8edd903bceb0",
+      "username": "shelter123",
+      "email": "shelter123@abv.bg",
+      "passwordHash": "$2b$10$9OaNIJsnGxvf4jMRQEUA8.gv6CBMIqNdLdN13N8tODo5/5P6jke0e",
+      "role": "Shelter",
+      "likedAnimals": []
+    },
+    {
+      "id": "54ddd392-abbd-46c7-9b21-91bccf7a4e17",
+      "username": "user1234",
+      "email": "user1234@abv.bg",
+      "passwordHash": "$2b$10$Kl.5OoeXozZw.0WJwNliPuqMy89Qtbg1MFwrB3HPG66cVCwnX99hO",
+      "role": "User",
       "likedAnimals": []
     }
   ],
@@ -269,6 +327,26 @@
       "status": "Approved",
       "createdAt": "2025-08-23T17:58:46.323Z",
       "updatedAt": "2025-08-23T17:59:11.745Z"
+    },
+    {
+      "id": "e034acbc-e39f-48e5-8d85-9e064fb8c70a",
+      "animalId": "2341c381-f83a-438a-b920-9f39cbf15d6e",
+      "userId": "7bc426bc-4010-40f5-a36e-989885977d3f",
+      "shelterId": "a217752f-db0b-4f48-aaef-55bab02f7610",
+      "message": "Name: kk\nPhone: 08978485\nrrrrr",
+      "status": "Approved",
+      "createdAt": "2025-08-24T10:39:52.240Z",
+      "updatedAt": "2025-08-24T10:40:33.965Z"
+    },
+    {
+      "id": "aff15ad5-be85-48c9-b868-fc87411cae6c",
+      "animalId": "3341e965-25f5-41c4-ac53-ebac7297add3",
+      "userId": "54ddd392-abbd-46c7-9b21-91bccf7a4e17",
+      "shelterId": "7dabfa2d-7639-4f25-8b73-8edd903bceb0",
+      "message": "Name: Viktoria\nPhone: 0895781788\nhhhh",
+      "status": "Approved",
+      "createdAt": "2025-08-24T12:07:35.064Z",
+      "updatedAt": "2025-08-24T12:08:32.084Z"
     }
   ]
 }
